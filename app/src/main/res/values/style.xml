@@ -4,4 +4,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item> <!-- Adjust the corner radius as needed -->
     </style>
+    <style name="SplashScreenStyle"  parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item> <!-- Adjust the corner radius as needed -->
+    </style>
 </resources>
