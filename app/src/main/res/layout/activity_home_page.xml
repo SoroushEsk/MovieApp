@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0A0F14"
     tools:context=".home.HomePage">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
 
 </androidx.constraintlayout.widget.ConstraintLayout>

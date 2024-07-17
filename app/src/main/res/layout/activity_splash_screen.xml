@@ -24,7 +24,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="TopMovieApp"
-        
+        android:textColor="#838386"
+        android:textSize="9pt"
+        android:layout_marginBottom="50dp"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
