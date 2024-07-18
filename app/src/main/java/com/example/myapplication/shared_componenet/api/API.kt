@@ -1,6 +1,7 @@
 package com.example.myapplication.shared_componenet.api
 
 import android.content.Context.MODE_PRIVATE
+import android.window.SplashScreen
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -41,10 +42,5 @@ class API {
                 .build()
                 .create(APIService::class.java)
         }
-//        private fun getAuthToken(): String {
-//            val sharedPreferences = MyApp.context.getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-//            return sharedPreferences.getString("authToken", "") ?: ""
-//
-        }
-
+    }
 }
