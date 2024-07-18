@@ -6,13 +6,57 @@
     android:layout_height="match_parent"
     android:background="#0A0F14"
     tools:context=".home.HomePage">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/home_page_buttons"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
     <LinearLayout
+        android:id="@+id/home_page_buttons"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:background="#BCBCBC"
-        />
+        android:background="#FFFFFF"
+        >
+        <ImageView
+            android:id="@+id/home_page_home_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/home"
+            android:layout_weight="1"
+            android:padding="18dp"
+            android:scaleType="fitCenter"
+            android:clickable="true"
+            app:tint="@color/app_gray_color"
+            />
+        <ImageView
+            android:id="@+id/home_page_search_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/search"
+            android:clickable="true"
+            android:padding="18dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            app:tint="@color/app_gray_color"
+            />
+        <ImageView
+            android:id="@+id/home_page_like_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/heart"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            android:padding="18dp"
+            android:clickable="true"
+            app:tint="@color/app_gray_color"
+            />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
