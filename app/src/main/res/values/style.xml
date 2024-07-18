@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="roundedCorners">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20dp</item> <!-- Adjust the corner radius as needed -->
-    </style>
+<!--    <style name="roundedCorners">-->
+<!--        <item name="cornerFamily">rounded</item>-->
+<!--        <item name="cornerSize">20dp</item> &lt;!&ndash; Adjust the corner radius as needed &ndash;&gt;-->
+<!--    </style>-->
     <style name="SplashScreenStyle"  parent="Theme.AppCompat.Light.NoActionBar">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20dp</item> <!-- Adjust the corner radius as needed -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!--        <item name="cornerSize">20dp</item> &lt;!&ndash; Adjust the corner radius as needed &ndash;&gt;-->
     </style>
 </resources>
