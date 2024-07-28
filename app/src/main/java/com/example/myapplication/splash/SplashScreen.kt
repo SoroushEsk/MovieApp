@@ -27,7 +27,7 @@ class SplashScreen : AppCompatActivity() {
         initSharedPreference()
         binding.mainAppIcon.alpha = 0f
         binding.mainAppIcon.animate().setDuration(1500).alpha(1f).withEndAction{
-            val intent = if (sharedPreferences.getBoolean(Constants.IsAuthenticated, false))
+            val intent = if (!sharedPreferences.getBoolean(Constants.IsAuthenticated, false))
                              Intent(this, HomePage::class.java)
                          else Intent(this, RegisterActivity::class.java)
             startActivity(intent)

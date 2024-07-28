@@ -1,10 +1,13 @@
 package com.example.myapplication.register
 
 import android.content.SharedPreferences
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityRegisterBinding
 import com.example.myapplication.features.token.domain.model.RegisterRequest
 import com.example.myapplication.features.token.presentation.TokenViewModel
@@ -31,9 +34,15 @@ class RegisterActivity : AppCompatActivity() {
             val userData = getRegisterRequest()
             viewModel.registerUser(userData)
             viewModel.registerResponse.observe(this){
-                Log.e("2323", it.message())
+                if(it.isSuccessful){
+                    sharedPreferences.putBoolean(Constants.IsAuthenticated, true)
+                }else {
+
+                }
             }
         }
+        var customeColoe = Color.parseColor("#FFAFAFAF")
+
     }
 
 

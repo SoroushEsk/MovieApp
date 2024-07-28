@@ -9,4 +9,13 @@
         <item name="android:windowIsTranslucent">true</item>
         <!--        <item name="cornerSize">20dp</item> &lt;!&ndash; Adjust the corner radius as needed &ndash;&gt;-->
     </style>
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextColor">@color/app_yellow_color</item> <!-- Hint text color -->
+        <item name="boxStrokeColor">@color/app_yellow_color</item> <!-- Outline color when focused -->
+    </style>
+    <style name="CustomTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
 </resources>

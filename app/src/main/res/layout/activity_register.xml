@@ -5,24 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/app_black_color"
+    android:padding="30dp"
     tools:context=".register.RegisterActivity">
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/profile"
+        android:layout_marginBottom="70dp"
+        android:layout_gravity="center"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutName"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:background="#282D41"
-        android:hint="Name">
+        app:hintTextColor="@color/app_yellow_color"
+        android:layout_marginVertical="10dp"
+        app:cursorColor="@color/app_yellow_color"
+        app:boxStrokeColor="@color/app_yellow_color"
+        android:hint="Name"
+        android:background="#282D41">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/app_yellow_color"
+            android:textColorHint="@color/app_yellow_color"
+            android:layout_gravity="bottom"
+            android:background="@null"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutStNumber"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_width="match_parent"
+        android:layout_marginVertical="10dp"
+        android:layout_gravity="center"
+        app:hintTextColor="@color/app_yellow_color"
+        app:cursorColor="@color/app_yellow_color"
         android:background="#282D41"
         android:hint="StudentNumber">
 
@@ -30,41 +55,73 @@
             android:id="@+id/textInputEditTextStNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/app_yellow_color"
+            android:textColorHint="@color/app_yellow_color"
+            android:background="@null"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutPassword"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:background="#282D41"
-        android:hint="Password">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditTextPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayoutEmail"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_width="match_parent"
+        android:layout_marginVertical="10dp"
+        app:hintTextColor="@color/app_yellow_color"
+        app:cursorColor="@color/app_yellow_color"
         android:background="#282D41"
+        android:layout_gravity="center"
         android:hint="Email">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textInputEditTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/app_yellow_color"
+            android:textColorHint="@color/app_yellow_color"
+            android:background="@null"
             android:inputType="text"/>
     </com.google.android.material.textfield.TextInputLayout>
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
+        android:layout_height="60dp"
+        android:layout_marginVertical="10dp"
+        android:layout_width="match_parent"
+        app:hintTextColor="@color/app_yellow_color"
+        app:cursorColor="@color/app_yellow_color"
         android:layout_gravity="center"
-        android:clickable="true"
-        />
+        android:background="#282D41"
+        app:endIconMode="password_toggle"
+        app:endIconTint="@color/app_gray_color"
+        android:hint="Password">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textInputEditTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_yellow_color"
+            android:textColorHint="@color/app_yellow_color"
+            android:background="@null"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="50dp"
+        >
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:background="@color/app_yellow_color"
+            android:layout_gravity="center"
+            android:textSize="13pt"
+            android:fontFamily="sans-serif-light"
+            android:paddingVertical="10dp"
+            android:clickable="true"
+            />
+    </androidx.cardview.widget.CardView>
+
 
 </LinearLayout>

@@ -14,14 +14,22 @@ class HomePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBinding()
+        initFragment()
     }
 
 
     //region Initialize
-    private fun initBinding(){
+    private fun initBinding() {
         binding = ActivityHomePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
+    private fun initFragment() {
+        supportFragmentManager.beginTransaction()
+            .add(binding.homePageFragmentContainer.id, HomeFragment())
+            .commit()
+    }
+    //endregion
+    //region methods
 
     //endregion
 }
