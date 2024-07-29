@@ -25,16 +25,25 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bindingInit()
         initSharedPreference()
-        binding.mainAppIcon.alpha = 0f
-        binding.mainAppIcon.animate().setDuration(1500).alpha(1f).withEndAction{
-            val intent = if (!sharedPreferences.getBoolean(Constants.IsAuthenticated, false))
-                             Intent(this, HomePage::class.java)
-                         else Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
 
+        binding.mainAppIcon.alpha = 0f
+        binding.mainAppIcon.scaleX = 0f
+        binding.mainAppIcon.scaleY = 0f
+
+        binding.mainAppIcon.animate()
+            .setDuration(1500)
+            .alpha(1f)
+            .scaleX(1f)
+            .scaleY(1f)
+            .withEndAction {
+                val intent = if (!sharedPreferences.getBoolean(Constants.IsAuthenticated, false))
+                    Intent(this, HomePage::class.java)
+                else Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            .start()
+    }
 
 
     //region initialization

@@ -7,23 +7,11 @@
     android:orientation="vertical"
     tools:context=".home.HomeFragment">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/topViewPager"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/homePageRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="15"
-        />
-    <LinearLayout
-        android:id="@+id/slideDotLayout"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        >
+        android:layout_height="match_parent"/>
 
-
-    </LinearLayout>
 
 
 

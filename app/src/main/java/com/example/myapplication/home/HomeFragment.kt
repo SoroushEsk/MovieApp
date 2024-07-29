@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.features.movie.presentation.ui.adapter.HomeFragmentAdapter
 import com.example.myapplication.features.movie.presentation.ui.adapter.TopMovieSliderAdapter
 import com.example.myapplication.features.movie.presentation.viewmodel.MovieViewModel
 import com.example.myapplication.features.movie.presentation.viewmodel.MovieViewModelFactory
@@ -17,7 +19,8 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: MovieViewModel
-    private lateinit var topMovieAdapter: TopMovieSliderAdapter
+    private lateinit var pageAdapter: HomeFragmentAdapter
+
 
 
     //endregion
@@ -37,9 +40,6 @@ class HomeFragment : Fragment() {
     }
     //endregion
     //region initiation
-    fun initBinding() {
-//        binding = FragmentHomeBinding.inflate(inflater, container, false)
-    }
 
     fun initViewModel() {
         viewModel = ViewModelProvider(this, MovieViewModelFactory())[MovieViewModel::class.java]
@@ -48,18 +48,19 @@ class HomeFragment : Fragment() {
     }
 
     fun initAdapter() {
-        topMovieAdapter = TopMovieSliderAdapter()
+        pageAdapter = HomeFragmentAdapter()
+
+        binding.homePageRecyclerView.adapter = pageAdapter
+        binding.homePageRecyclerView.layoutManager =
+        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
     //endregion
     //region method
     private fun viewModelConfig() {
         viewModel.movies.observe(viewLifecycleOwner) { movieList ->
-            topMovieAdapter.updateData(movieList.data)
+            pageAdapter.updateData(movieList.data)
         }
-
-        binding.topViewPager.adapter = topMovieAdapter
-
     }
     //endregion
 }

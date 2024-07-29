@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
-        var customeColoe = Color.parseColor("#FFAFAFAF")
+//        var customeColoe = Color.parseColor("#FFAFAFAF")
 
     }
 
