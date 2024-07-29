@@ -8,21 +8,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModel
+import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModelFactory
 import com.example.myapplication.features.movie.presentation.ui.adapter.HomeFragmentAdapter
-import com.example.myapplication.features.movie.presentation.ui.adapter.TopMovieSliderAdapter
 import com.example.myapplication.features.movie.presentation.viewmodel.MovieViewModel
 import com.example.myapplication.features.movie.presentation.viewmodel.MovieViewModelFactory
 
 class HomeFragment : Fragment() {
-
     //region properties
-
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel: MovieViewModel
+    private lateinit var movieViewModel: MovieViewModel
     private lateinit var pageAdapter: HomeFragmentAdapter
-
-
-
+    private lateinit var genreViewModel: GenreViewModel
     //endregion
     //region lifecycle
     override fun onCreateView(
@@ -40,26 +37,26 @@ class HomeFragment : Fragment() {
     }
     //endregion
     //region initiation
-
     fun initViewModel() {
-        viewModel = ViewModelProvider(this, MovieViewModelFactory())[MovieViewModel::class.java]
-
-        viewModel.getAllMovies()
+        movieViewModel = ViewModelProvider(this, MovieViewModelFactory())[MovieViewModel::class.java]
+        genreViewModel = ViewModelProvider(this, GenreViewModelFactory())[GenreViewModel::class.java]
+        movieViewModel.getAllMovies()
+        genreViewModel.getAllGenres()
     }
-
     fun initAdapter() {
         pageAdapter = HomeFragmentAdapter()
-
         binding.homePageRecyclerView.adapter = pageAdapter
         binding.homePageRecyclerView.layoutManager =
         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
-
     //endregion
     //region method
     private fun viewModelConfig() {
-        viewModel.movies.observe(viewLifecycleOwner) { movieList ->
-            pageAdapter.updateData(movieList.data)
+        movieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
+            pageAdapter.updateMovies(movieList.data)
+        }
+        genreViewModel.genres.observe(viewLifecycleOwner) { genreList ->
+            pageAdapter.updateGenres(genreList.data)
         }
     }
     //endregion

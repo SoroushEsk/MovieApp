@@ -14,7 +14,7 @@ import com.example.myapplication.shared_componenet.constants.Constants
 class TopMovieSliderAdapter (private var movies : List<Movie> = listOf()) :
         RecyclerView.Adapter<TopMovieSliderAdapter.TopMovieViewHolder>()
 {
-    private var previousPosition = 0
+
     private lateinit var binding: TopMovieViewBinding
     inner class TopMovieViewHolder(private val binding : TopMovieViewBinding) :
             RecyclerView.ViewHolder(binding.root){

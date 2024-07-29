@@ -5,23 +5,28 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.core.view.marginEnd
-import androidx.core.view.marginLeft
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.myapplication.R
+import com.example.myapplication.databinding.GenreRecyclerBinding
 import com.example.myapplication.databinding.HomePageTitleItemBinding
 import com.example.myapplication.databinding.TopMovieSliderViewBinding
-import com.example.myapplication.databinding.TopMovieViewBinding
+import com.example.myapplication.features.genre.domain.model.Genre
+import com.example.myapplication.features.genre.presentation.ui.adapter.GenreAdapter
 import com.example.myapplication.features.movie.domain.model.Movie
 import com.example.myapplication.shared_componenet.constants.Constants
 
-class HomeFragmentAdapter(private var movies: List<Movie> = listOf()) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeFragmentAdapter(
+    private var movies: List<Movie> = listOf(),
+    private var genres: List<Genre> = listOf())
+        :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //region properties
     private lateinit var sliderBinding          : TopMovieSliderViewBinding
     private lateinit var sliderAdapter          : TopMovieSliderAdapter
     private lateinit var genreTitleBinding      : HomePageTitleItemBinding
+    private lateinit var genreRecyclerBinding   : GenreRecyclerBinding
+    private lateinit var genreAdapter           : GenreAdapter
     private lateinit var onPageChangeListener   : ViewPager2.OnPageChangeCallback
     private val layoutParams = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -29,7 +34,6 @@ class HomeFragmentAdapter(private var movies: List<Movie> = listOf()) :
     ).apply {
         setMargins(8, 0, 8, 8)
     }
-
     //endregion
     //region inner(object/class)
     companion object {
@@ -40,7 +44,6 @@ class HomeFragmentAdapter(private var movies: List<Movie> = listOf()) :
         private const val LAST_MOVIE_TITLE = 3
         private const val LAST_MOVIE_RECYCLER = 4
     }
-
     inner class TopMovieSliderViewHolder(
         private val binding: TopMovieSliderViewBinding,
         private val sliderAdapter: TopMovieSliderAdapter,
@@ -51,14 +54,24 @@ class HomeFragmentAdapter(private var movies: List<Movie> = listOf()) :
             sliderAdapter.updateData(movies)
         }
     }
-
     inner class GenreTitleViewHolder(private val binding : HomePageTitleItemBinding)
         : RecyclerView.ViewHolder(binding.root){
         fun bindData(){
             binding.titleText.text = "Genre"
         }
     }
-
+    inner class GenreRecyclerViewHolder(
+        private val binding : GenreRecyclerBinding,
+        private val adapter : GenreAdapter,
+        private val parent  : ViewGroup
+    ): RecyclerView.ViewHolder(binding.root){
+        fun bindData(){
+            binding.homePageGenreRecycler.adapter = adapter
+            adapter.updateData(genres)
+            binding.homePageGenreRecycler.layoutManager =
+                LinearLayoutManager(parent.context , LinearLayoutManager.HORIZONTAL, false)
+        }
+    }
     //endregion
     //region adapter methods
     override fun getItemViewType(position: Int): Int {
@@ -70,7 +83,6 @@ class HomeFragmentAdapter(private var movies: List<Movie> = listOf()) :
             else -> LAST_MOVIE_RECYCLER
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == TOP_MOVIE_VIEW_PAGER) {
             sliderAdapter = TopMovieSliderAdapter()
@@ -108,19 +120,25 @@ class HomeFragmentAdapter(private var movies: List<Movie> = listOf()) :
                 parent,
                 false
             )
+        } else if ( viewType == GENRE_RECYCLER_VIEW ){
+            genreAdapter = GenreAdapter()
+            genreRecyclerBinding = GenreRecyclerBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
         }
         return when (viewType) {
             TOP_MOVIE_VIEW_PAGER    -> TopMovieSliderViewHolder(sliderBinding, sliderAdapter, parent)
             GENRE_TITLE             -> GenreTitleViewHolder(genreTitleBinding)
+            GENRE_RECYCLER_VIEW     -> GenreRecyclerViewHolder(genreRecyclerBinding, genreAdapter, parent)
             else -> TopMovieSliderViewHolder(sliderBinding, sliderAdapter, parent)
         }
 
     }
-
     override fun getItemCount(): Int {
-        return 2
+        return 3
     }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is TopMovieSliderViewHolder -> {
@@ -129,13 +147,22 @@ class HomeFragmentAdapter(private var movies: List<Movie> = listOf()) :
             is GenreTitleViewHolder     -> {
                 holder.bindData()
             }
+            is GenreRecyclerViewHolder  -> {
+                holder.bindData()
+            }
         }
     }
-
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(moviesResponce: List<Movie>) {
+    fun updateMovies(moviesResponce: List<Movie>) {
         if (moviesResponce.isNotEmpty()) {
             this.movies = moviesResponce
+            notifyDataSetChanged()
+        }
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateGenres(genres:  List<Genre>) {
+        if (genres.isNotEmpty()) {
+            this.genres = genres
             notifyDataSetChanged()
         }
     }

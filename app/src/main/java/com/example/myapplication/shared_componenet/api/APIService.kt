@@ -1,5 +1,6 @@
 package com.example.myapplication.shared_componenet.api
 
+import com.example.myapplication.features.genre.domain.model.GenreResponse
 import com.example.myapplication.features.movie.domain.model.MovieDetailResponse
 import com.example.myapplication.features.movie.domain.model.MoviesResponse
 import com.example.myapplication.features.token.domain.model.RegisterRequest
@@ -22,6 +23,8 @@ interface APIService {
     @GET("movie/{movie_id}")
     suspend fun getMovie(@Path("movie_id") id : Int): Response<MovieDetailResponse>
 
+    @GET("genres")
+    suspend fun  getAllGenres() : Response<GenreResponse>
 }
 
 
