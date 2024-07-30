@@ -1,11 +1,12 @@
 package com.example.myapplication.features.movie.domain.repository
 
+import com.example.myapplication.features.movie.domain.model.MoviesResponse
 import com.example.myapplication.shared_componenet.api.APIService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class MoviesPageRepository (private val api : APIService){
-    suspend fun getMovieByPageNumber(pageNumber : Int){
+    suspend fun getMovieByPageNumber(pageNumber : Int) : MoviesResponse{
         return withContext(Dispatchers.IO){
             val response = api.getMoviePage(pageNumber)
             if ( response.isSuccessful){
