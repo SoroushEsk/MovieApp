@@ -24,6 +24,7 @@ class HomeFragmentAdapter(
     private var genres: MutableList<Genre> = mutableListOf())
         :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //region properties
+    var isLoading = false
     private lateinit var sliderBinding          : TopMovieSliderViewBinding
     private lateinit var sliderAdapter          : TopMovieSliderAdapter
     private lateinit var genreTitleBinding      : HomePageTitleItemBinding
@@ -201,6 +202,7 @@ class HomeFragmentAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun updateMovies(moviesResponce: List<Movie>) {
         if (moviesResponce.isNotEmpty()) {
+            val movieSize = this.movies.size
             this.movies.addAll(moviesResponce)
             notifyDataSetChanged()
         }

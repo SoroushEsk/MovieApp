@@ -11,15 +11,20 @@ import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModel
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModelFactory
 import com.example.myapplication.features.movie.presentation.ui.adapter.HomeFragmentAdapter
-import com.example.myapplication.features.movie.presentation.viewmodel.MovieViewModel
-import com.example.myapplication.features.movie.presentation.viewmodel.MovieViewModelFactory
+import com.example.myapplication.features.movie.presentation.ui.scroll.EndlessRecyclerViewScrollListener
+import com.example.myapplication.features.movie.presentation.viewmodel.*
 
 class HomeFragment : Fragment() {
     //region properties
     private lateinit var binding: FragmentHomeBinding
     private lateinit var movieViewModel: MovieViewModel
+    private lateinit var pageMovieViewModel: MoviePageViewModel
     private lateinit var pageAdapter: HomeFragmentAdapter
     private lateinit var genreViewModel: GenreViewModel
+    companion object{
+        var MaxPageSize = 0
+        var CurrentPageNumber = 1
+    }
     //endregion
     //region lifecycle
     override fun onCreateView(
@@ -34,12 +39,14 @@ class HomeFragment : Fragment() {
         initViewModel()
         initAdapter()
         viewModelConfig()
+        setupScrollListener()
     }
     //endregion
     //region initiation
     fun initViewModel() {
         movieViewModel = ViewModelProvider(this, MovieViewModelFactory())[MovieViewModel::class.java]
         genreViewModel = ViewModelProvider(this, GenreViewModelFactory())[GenreViewModel::class.java]
+        pageMovieViewModel = ViewModelProvider(this, MoviePageViewModelFactory())[MoviePageViewModel::class.java]
         movieViewModel.getAllMovies()
         genreViewModel.getAllGenres()
     }
@@ -54,10 +61,38 @@ class HomeFragment : Fragment() {
     private fun viewModelConfig() {
         movieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
             pageAdapter.updateMovies(movieList.data)
+            MaxPageSize = movieList.metadata.page_count
+            CurrentPageNumber = movieList.metadata.current_page
+            pageAdapter.isLoading=false
+            pageAdapter.isLoading=false
         }
         genreViewModel.genres.observe(viewLifecycleOwner) { genreList ->
             pageAdapter.updateGenres(genreList.data)
         }
+        pageMovieViewModel.movies.observe(viewLifecycleOwner){movieList ->
+            pageAdapter.updateMovies(movieList.data)
+            pageAdapter.isLoading=false
+        }
+    }
+    private fun setupScrollListener() {
+        val layoutManager = binding.homePageRecyclerView.layoutManager as LinearLayoutManager
+        binding.homePageRecyclerView.addOnScrollListener(object : EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun loadMoreItems() {
+                pageAdapter.isLoading = true
+                CurrentPageNumber++
+                if (CurrentPageNumber <= MaxPageSize) {
+                    pageMovieViewModel.getMoviesByPage(CurrentPageNumber)
+                }
+            }
+
+            override fun isLastPage(): Boolean {
+                return CurrentPageNumber == MaxPageSize
+            }
+
+            override fun isLoading(): Boolean {
+                return pageAdapter.isLoading
+            }
+        })
     }
     //endregion
 }
