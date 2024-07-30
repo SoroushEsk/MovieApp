@@ -5,7 +5,7 @@ import com.example.myapplication.shared_componenet.api.APIService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MovieRepository(private val api : APIService){
+class MoviesRepository(private val api : APIService){
 
     suspend fun getMovies(): MoviesResponse {
         return withContext(Dispatchers.IO) {

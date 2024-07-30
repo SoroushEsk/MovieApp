@@ -3,14 +3,11 @@ package com.example.myapplication.features.movie.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.myapplication.features.movie.domain.model.MoviesResponse
-import com.example.myapplication.features.movie.domain.repository.MovieRepository
-import com.example.myapplication.features.token.domain.repository.TokenRepository
-import com.example.myapplication.features.token.presentation.HomePageModule
-import com.example.myapplication.features.token.presentation.TokenViewModel
+import com.example.myapplication.features.movie.domain.repository.MoviesRepository
 import com.example.myapplication.shared_componenet.api.API
 import kotlinx.coroutines.launch
 
-class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
+class MovieViewModel(private val repository: MoviesRepository) : ViewModel() {
 
     private val _movies = MutableLiveData<MoviesResponse>()
     val movies: LiveData<MoviesResponse> get() = _movies
@@ -38,8 +35,8 @@ class MovieViewModelFactory(): ViewModelProvider.Factory{
 }
 class MovieHomePageModule{
     companion object {
-        val watchRepository: MovieRepository by lazy {
-            MovieRepository(API.apiService)
+        val watchRepository: MoviesRepository by lazy {
+            MoviesRepository(API.apiService)
         }
     }
 }

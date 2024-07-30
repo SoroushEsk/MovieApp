@@ -20,8 +20,8 @@ import com.example.myapplication.features.movie.domain.model.Movie
 import com.example.myapplication.shared_componenet.constants.Constants
 
 class HomeFragmentAdapter(
-    private var movies: List<Movie> = listOf(),
-    private var genres: List<Genre> = listOf())
+    private var movies: MutableList<Movie> = mutableListOf(),
+    private var genres: MutableList<Genre> = mutableListOf())
         :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //region properties
     private lateinit var sliderBinding          : TopMovieSliderViewBinding
@@ -201,14 +201,14 @@ class HomeFragmentAdapter(
     @SuppressLint("NotifyDataSetChanged")
     fun updateMovies(moviesResponce: List<Movie>) {
         if (moviesResponce.isNotEmpty()) {
-            this.movies = moviesResponce
+            this.movies.addAll(moviesResponce)
             notifyDataSetChanged()
         }
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateGenres(genres:  List<Genre>) {
         if (genres.isNotEmpty()) {
-            this.genres = genres
+            this.genres.addAll(genres)
             notifyDataSetChanged()
         }
     }

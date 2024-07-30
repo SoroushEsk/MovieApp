@@ -4,8 +4,6 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.myapplication.features.genre.domain.model.GenreResponse
 import com.example.myapplication.features.genre.domain.repository.GenreRepository
-import com.example.myapplication.features.movie.domain.repository.MovieRepository
-import com.example.myapplication.features.movie.presentation.viewmodel.MovieViewModel
 import com.example.myapplication.shared_componenet.api.API
 import kotlinx.coroutines.launch
 

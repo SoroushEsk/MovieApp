@@ -5,7 +5,6 @@ import com.example.myapplication.features.movie.domain.model.MovieDetailResponse
 import com.example.myapplication.features.movie.domain.model.MoviesResponse
 import com.example.myapplication.features.token.domain.model.RegisterRequest
 import com.example.myapplication.features.token.domain.model.RequestResponse
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,6 +24,9 @@ interface APIService {
 
     @GET("genres")
     suspend fun  getAllGenres() : Response<GenreResponse>
+
+    @GET("movies/{page}")
+    suspend fun getMoviePage(@Path("page") page : Int) : Response<MoviesResponse>
 }
 
 
