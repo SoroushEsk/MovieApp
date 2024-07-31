@@ -31,7 +31,7 @@
             android:layout_margin="4dp"
             android:fontFamily="sans-serif"
             android:textColor="@color/white"
-            android:textSize="12pt" />
+            android:textSize="@dimen/posterNameFontSize" />
 
         <LinearLayout
             android:id="@+id/topMoreDetailedLayout"
@@ -45,8 +45,7 @@
                 android:layout_width="20dp"
                 android:id="@+id/ratingStartIcon"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="8dp"
-                android:src="@drawable/star" />
+                android:layout_marginHorizontal="8dp" />
 
             <TextView
                 android:id="@+id/topMovieRating"
@@ -60,7 +59,6 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="4dp"
-                android:background="@drawable/divider"
                 />
 
             <TextView
@@ -74,7 +72,6 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/divider"
                 android:layout_marginHorizontal="4dp"
                 />
 

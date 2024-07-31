@@ -208,6 +208,13 @@ class HomeFragmentAdapter(
         }
     }
     @SuppressLint("NotifyDataSetChanged")
+    fun sortMovies(movies: List<Movie>) {
+        if (movies.isNotEmpty()) {
+            this.movies = movies as MutableList<Movie>
+            notifyDataSetChanged()
+        }
+    }
+    @SuppressLint("NotifyDataSetChanged")
     fun updateGenres(genres:  List<Genre>) {
         if (genres.isNotEmpty()) {
             this.genres.addAll(genres)

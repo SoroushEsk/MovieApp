@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_black_color"
+    android:orientation="vertical"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/moviePagePosterHeight"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="@dimen/moviePagePosterHeight"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/posterTransparent"
+                android:src="@drawable/a"
+                android:scaleType="centerCrop"
+                android:alpha="0.16"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/moviePagePosterHeight"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+                <ImageButton
+                    android:layout_width="@dimen/topMoviePageIconSize"
+                    android:layout_height="match_parent"
+                    android:id="@+id/backButton"
+                    android:clickable="true"
+                    android:src="@drawable/previous"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:layout_marginStart="16dp"
+                    android:padding="12dp"
+                    app:tint="@color/app_gray_color" />
+                <ImageButton
+                    android:layout_width="@dimen/topMoviePageIconSize"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:src="@drawable/movieLike"
+                    android:id="@+id/likeButton"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:scaleType="fitCenter"
+                    android:background="@null"
+                    android:padding="10dp"
+                    app:tint="@color/app_gray_color"
+                    android:layout_marginEnd="16dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:layout_gravity="center"
+                app:cardElevation="0f"
+                android:background="@null"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="20dp"
+                >
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/moviePagePoster"
+                        android:src="@drawable/a"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/posterMovieTitle"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:text="Dog Day Afternoon"
+                        android:fontFamily="sans-serif"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/posterNameFontSize"
+
+                    <ImageView
+                        android:id="@+id/backgroundMoviePoster"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha=".15"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/a" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/ratingIcon"
+                        android:layout_width="@dimen/moviePageIconSize"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/moviePageIconPadding"
+                        android:src="@drawable/star"
+                        app:tint="@color/app_gray_color" />
+
+                    <TextView
+                        android:id="@+id/ratingText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="sans-serif-light"
+                        android:text="8.0"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/moviePageBodyFontSize" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/durationIcon"
+                        android:layout_width="@dimen/moviePageIconSize"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/moviePageIconPadding"
+                        android:src="@drawable/clock"
+                        app:tint="@color/app_gray_color" />
+
+                    <TextView
+                        android:id="duratinAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="sans-serif-light"
+                        android:text="125 min"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/moviePageBodyFontSize" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/dateIcon"
+                        android:layout_width="@dimen/moviePageIconSize"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/moviePageIconPadding"
+                        android:src="@drawable/calendar"
+                        app:tint="@color/app_gray_color" />
+
+                    <TextView
+                        android:id="@+id/dateAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="sans-serif-light"
+                        android:text="21 Sep 1975"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/moviePageBodyFontSize" />
+
+                </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/moviePageIconSize"
+        android:gravity="center_vertical"
+        android:layout_marginVertical="4dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
+        >
+        <ImageView
+            android:layout_width="@dimen/moviePageIconSize"
+            android:layout_height="match_parent"
+            android:src="@drawable/summary"
+            android:padding="8dp"
+            app:tint="@color/app_gray_color"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif-light"
+            android:textSize="@dimen/moviePageHeaderFontSize"
+            android:text="Summary"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/moviePageBodyFontSize"
+        android:text="A man robs a bank to pay for his lover's operation. it turn into a hostage situation and a media circus."/>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/moviePageIconSize"
+        android:gravity="center_vertical"
+        android:layout_marginVertical="4dp"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
+        >
+        <ImageView
+            android:layout_width="@dimen/moviePageIconSize"
+            android:layout_height="match_parent"
+            android:src="@drawable/mask"
+            android:padding="8dp"
+            app:tint="@color/app_gray_color"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif-light"
+            android:textSize="@dimen/moviePageHeaderFontSize"
+            android:text="Actors"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
+        android:textColor="@color/white"
+        android:fontFamily="sans-serif-light"
+        android:textSize="@dimen/moviePageBodyFontSize"
+        android:justificationMode="inter_word"
+        android:text="Penelope Allen, Boyar, John Cazale, Beulah Garrick"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/moviePageHorizMargin"
+        android:clipToPadding="true"
+        android:paddingHorizontal="@dimen/moviePageHorizMargin"/>
+</androidx.appcompat.widget.LinearLayoutCompat>
