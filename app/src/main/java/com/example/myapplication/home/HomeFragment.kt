@@ -2,6 +2,7 @@ package com.example.myapplication.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +33,8 @@ class HomeFragment
     private lateinit var pageMovieViewModel: MoviePageViewModel
     private lateinit var pageAdapter: HomeFragmentAdapter
     private lateinit var genreViewModel: GenreViewModel
+    private var movies : MutableList<Movie> = mutableListOf()
+    private var genres : MutableList<String>   = mutableListOf()
     companion object{
         var MaxPageSize = 0
         var CurrentPageNumber = 1
@@ -65,6 +68,7 @@ class HomeFragment
         pageAdapter = HomeFragmentAdapter()
         pageAdapter.setOnMovieClickListener(this)
         pageAdapter.setOnSliderClick(this)
+        pageAdapter.setOnGenreClick(this)
         binding.homePageRecyclerView.adapter = pageAdapter
         binding.homePageRecyclerView.layoutManager =
         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -72,6 +76,32 @@ class HomeFragment
     //endregion
     //region methods
     override fun genreClick(genre: Genre) {
+        var tempMovies : MutableList<Movie> = mutableListOf()
+        if ( genres.contains(genre.name) ){
+            genres.remove(genre.name)
+            if(genres.isEmpty())
+                tempMovies = movies
+            else
+                for (movie in movies) {
+                    for (genre in genres) {
+                        if (movie.genres.contains(genre)) {
+                            tempMovies.add(movie)
+                            break
+                        }
+                    }
+                }
+        } else {
+            genres.add(genre.name)
+            for (movie in movies) {
+                for (genre in genres) {
+                    if (movie.genres.contains(genre)) {
+                        tempMovies.add(movie)
+                        break
+                    }
+                }
+            }
+        }
+        pageAdapter.setMovies(tempMovies)
     }
     override fun onMovieClick(movie: Movie){
         val intent = Intent(requireContext(), MoviePage::class.java)
@@ -85,7 +115,8 @@ class HomeFragment
     }
     private fun viewModelConfig() {
         movieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
-            pageAdapter.updateMovies(movieList.data)
+            movies.addAll(movieList.data)
+            pageAdapter.updateMovies(filterMovies(movieList.data))
             MaxPageSize = movieList.metadata.page_count
             CurrentPageNumber = movieList.metadata.current_page
             pageAdapter.isLoading=false
@@ -95,7 +126,8 @@ class HomeFragment
             pageAdapter.updateGenres(genreList.data)
         }
         pageMovieViewModel.movies.observe(viewLifecycleOwner){movieList ->
-            pageAdapter.updateMovies(movieList.data)
+            movies.addAll(movieList.data)
+            pageAdapter.updateMovies(filterMovies(movieList.data))
             pageAdapter.isLoading=false
         }
     }
@@ -118,6 +150,19 @@ class HomeFragment
                 return pageAdapter.isLoading
             }
         })
+    }
+    private fun filterMovies(movies : List<Movie>) : MutableList<Movie>{
+        if(genres.isEmpty()) return movies as MutableList<Movie>
+        val result : MutableList<Movie> = mutableListOf()
+        for (movie in movies) {
+            for (genre in genres) {
+                if (movie.genres.contains(genre)) {
+                    result.add(movie)
+                    break
+                }
+            }
+        }
+        return result
     }
     //endregion
 }

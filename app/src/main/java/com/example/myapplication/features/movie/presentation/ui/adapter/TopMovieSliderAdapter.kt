@@ -18,7 +18,7 @@ class TopMovieSliderAdapter (
 {
 
     private lateinit var binding: TopMovieViewBinding
-
+    private var isSet : Boolean = false
     interface OnSliderMovieClickListener {
         fun onSliderMovieClick(movie: Movie)
     }
@@ -43,21 +43,23 @@ class TopMovieSliderAdapter (
         return TopMovieViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = Constants.Top_Movie_Size
+    override fun getItemCount(): Int = Int.MAX_VALUE
 
     override fun onBindViewHolder(holder : TopMovieViewHolder, position: Int) {
         if (movies.isNotEmpty()) {
-            holder.bindData(movies.get(position))
+            holder.bindData(movies.get(position%Constants.Top_Movie_Size))
             holder.itemView.setOnClickListener{
-                onMovieClickListener?.onSliderMovieClick(movies[position])
+                onMovieClickListener?.onSliderMovieClick(movies[position%Constants.Top_Movie_Size])
             }
         }
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(moviesResponce: List<Movie>){
+        if(isSet) return
         if ( moviesResponce.isNotEmpty() ){
             this.movies = moviesResponce
             notifyDataSetChanged()
+            isSet = true
         }
     }
 }

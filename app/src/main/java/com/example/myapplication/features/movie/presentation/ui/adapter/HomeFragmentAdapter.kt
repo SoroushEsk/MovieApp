@@ -1,9 +1,15 @@
 package com.example.myapplication.features.movie.presentation.ui.adapter
 
+import android.animation.Animator
+import android.animation.TimeInterpolator
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +31,9 @@ class HomeFragmentAdapter(
     private var genres: MutableList<Genre> = mutableListOf())
         :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //region properties
+    private val handler = Handler(Looper.getMainLooper())
+    private var autoScrollRunnable: Runnable? = null
+    private val autoScrollDelay = Constants.SliderDuration
     var isLoading = false
     private var currentSliderPosition = 0
     private var currentGenrePosition  = 0
@@ -55,6 +64,7 @@ class HomeFragmentAdapter(
         private const val GENRE_RECYCLER_VIEW = 2
         private const val LAST_MOVIE_TITLE = 3
         private const val LAST_MOVIE_RECYCLER = 4
+        private const val SCROLL_DURATION = 1000L
     }
     interface OnMovieClickListener {
         fun onMovieClick(movie: Movie)
@@ -142,7 +152,7 @@ class HomeFragmentAdapter(
             onPageChangeListener = object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     dotImage.mapIndexed { index, imageView ->
-                        if (position == index) {
+                        if (position%Constants.Top_Movie_Size == index) {
                             imageView.setImageResource(R.drawable.active_dot)
                         } else {
                             imageView.setImageResource(R.drawable.not_active_dot)
@@ -205,7 +215,6 @@ class HomeFragmentAdapter(
                 holder.bindData()
                 Log.e("sth", currentSliderPosition.toString())
                 sliderBinding.topViewPager.setCurrentItem(currentSliderPosition, false)
-
             }
             is GenreTitleViewHolder     -> {
                 holder.bindData()
@@ -233,6 +242,58 @@ class HomeFragmentAdapter(
     fun setOnGenreClick(listener: GenreAdapter.OnGenreClickListener){
         genreClickListener = listener
     }
+    fun ViewPager2.setCurrentItemWithDuration(
+        item: Int,
+        duration: Long,
+        interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
+        pagePxWidth: Int = width // Default to screen width
+    ) {
+        val pxToDrag: Int = pagePxWidth * (item - currentItem)
+        val animator = ValueAnimator.ofInt(0, pxToDrag)
+        var previousValue = 0
+        animator.addUpdateListener { valueAnimator ->
+            val currentValue = valueAnimator.animatedValue as Int
+            val currentPxToDrag = (currentValue - previousValue).toFloat()
+            fakeDragBy(-currentPxToDrag)
+            previousValue = currentValue
+        }
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) { beginFakeDrag() }
+            override fun onAnimationEnd(animation: Animator) { endFakeDrag() }
+            override fun onAnimationCancel(animation: Animator) { /* Ignored */ }
+            override fun onAnimationRepeat(animation: Animator) { /* Ignored */ }
+        })
+        animator.interpolator = interpolator
+        animator.duration = duration
+        animator.start()
+    }
+    private fun startAutoScroll() {
+        autoScrollRunnable = object : Runnable {
+            override fun run() {
+                sliderBinding.topViewPager.setCurrentItemWithDuration(
+                    sliderBinding.topViewPager.currentItem + 1,
+                    SCROLL_DURATION
+                )
+                handler.postDelayed(this, autoScrollDelay)
+            }
+        }
+        handler.postDelayed(autoScrollRunnable!!, autoScrollDelay)
+    }
+    private fun stopAutoScroll() {
+        autoScrollRunnable?.let { handler.removeCallbacks(it) }
+    }
+    override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewAttachedToWindow(holder)
+        if (holder is TopMovieSliderViewHolder) {
+            startAutoScroll()
+        }
+    }
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        if (holder is TopMovieSliderViewHolder) {
+            stopAutoScroll()
+        }
+    }
     @SuppressLint("NotifyDataSetChanged")
     fun updateMovies(moviesResponce: List<Movie>) {
         if (moviesResponce.isNotEmpty()) {
@@ -242,9 +303,9 @@ class HomeFragmentAdapter(
         }
     }
     @SuppressLint("NotifyDataSetChanged")
-    fun sortMovies(movies: List<Movie>) {
+    fun setMovies(movies: MutableList<Movie>) {
         if (movies.isNotEmpty()) {
-            this.movies = movies as MutableList<Movie>
+            this.movies = movies
             notifyDataSetChanged()
         }
     }
@@ -254,6 +315,9 @@ class HomeFragmentAdapter(
             this.genres.addAll(genres)
             notifyDataSetChanged()
         }
+    }
+    fun onDestroy() {
+        stopAutoScroll()
     }
     //endregion
 }

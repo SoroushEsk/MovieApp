@@ -1,6 +1,7 @@
 package com.example.myapplication.features.genre.presentation.ui.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -51,9 +52,9 @@ class GenreAdapter (
         if(genres.isNotEmpty()) {
             holder.bindData(genres[position], genreSelected[position])
             holder.itemView.setOnClickListener{
+                listener?.genreClick(genres[position])
                 genreSelected[position] = !genreSelected[position]
                 notifyItemChanged(position)
-                listener?.genreClick(genres[position])
             }
         }
     }

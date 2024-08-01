@@ -10,5 +10,5 @@ object Constants {
     const val Intent_Movie_Id :String = "movie_id"
     const val SummaryTitle: String = "Summary"
     const val ActorTitle: String = "Actors"
-
+    const val SliderDuration: Long = 5000L
 }
