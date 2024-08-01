@@ -72,7 +72,6 @@ class HomeFragment
     //endregion
     //region methods
     override fun genreClick(genre: Genre) {
-        TODO("Not yet implemented")
     }
     override fun onMovieClick(movie: Movie){
         val intent = Intent(requireContext(), MoviePage::class.java)

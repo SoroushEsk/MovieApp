@@ -11,4 +11,5 @@
     <dimen name="moviePageIconSize">40dp</dimen>
     <dimen name="moviePageHorizMargin">16dp</dimen>
     <dimen name="movieImageItemSize">150dp</dimen>
+    <dimen name="genreItemCornerRaduis">40dp</dimen>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.myapplication.features.movie.presentation.ui.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -25,6 +26,8 @@ class HomeFragmentAdapter(
         :RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //region properties
     var isLoading = false
+    private var currentSliderPosition = 0
+    private var currentGenrePosition  = 0
     private lateinit var sliderBinding          : TopMovieSliderViewBinding
     private lateinit var sliderAdapter          : TopMovieSliderAdapter
     private lateinit var genreTitleBinding      : HomePageTitleItemBinding
@@ -32,11 +35,11 @@ class HomeFragmentAdapter(
     private lateinit var genreRecyclerBinding   : GenreRecyclerBinding
     private lateinit var genreAdapter           : GenreAdapter
     private lateinit var onPageChangeListener   : ViewPager2.OnPageChangeCallback
+    private lateinit var onGenreChangeListener  : RecyclerView.OnScrollListener
     private lateinit var lastMoveRecyclerBinding: LastMovieItemBinding
     private var movieClickListener: OnMovieClickListener? = null
     private var sliderMovieClickListener: TopMovieSliderAdapter.OnSliderMovieClickListener? = null
     private var genreClickListener: GenreAdapter.OnGenreClickListener? = null
-
     private val layoutParams = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -76,12 +79,14 @@ class HomeFragmentAdapter(
         private val binding : GenreRecyclerBinding,
         private val adapter : GenreAdapter,
         private val parent  : ViewGroup
-    ): RecyclerView.ViewHolder(binding.root){
+    ): RecyclerView.ViewHolder(binding.root) {
         fun bindData(){
             binding.homePageGenreRecycler.adapter = adapter
             adapter.updateData(genres)
             binding.homePageGenreRecycler.layoutManager =
                 LinearLayoutManager(parent.context , LinearLayoutManager.HORIZONTAL, false)
+            binding.homePageGenreRecycler.addOnScrollListener(onGenreChangeListener)
+            binding.homePageGenreRecycler.scrollToPosition(currentGenrePosition)
         }
     }
     inner class LastMovieTitleViewHolder(private val binding : HomePageTitleItemBinding)
@@ -143,6 +148,7 @@ class HomeFragmentAdapter(
                             imageView.setImageResource(R.drawable.not_active_dot)
                         }
                     }
+                    currentSliderPosition = position
                     super.onPageSelected(position)
                 }
             }
@@ -162,6 +168,12 @@ class HomeFragmentAdapter(
                 parent,
                 false
             )
+            onGenreChangeListener = object : RecyclerView.OnScrollListener(){
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    currentGenrePosition = (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    super.onScrolled(recyclerView, dx, dy)
+                }
+            }
         }else if ( viewType == LAST_MOVIE_TITLE ) {
             lastMovieTitleBinding = HomePageTitleItemBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -191,6 +203,9 @@ class HomeFragmentAdapter(
         when (holder) {
             is TopMovieSliderViewHolder -> {
                 holder.bindData()
+                Log.e("sth", currentSliderPosition.toString())
+                sliderBinding.topViewPager.setCurrentItem(currentSliderPosition, false)
+
             }
             is GenreTitleViewHolder     -> {
                 holder.bindData()

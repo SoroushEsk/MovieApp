@@ -11,4 +11,5 @@
     <color name="app_gray_color">#FFAFAFAF</color>
     <color name="app_yellow_color">#FFF0AA4B</color>
     <color name="app_black_color">#FF0A0F14</color>
+    <color name="light_gray_color">#1FFFFFFF</color>
 </resources>
