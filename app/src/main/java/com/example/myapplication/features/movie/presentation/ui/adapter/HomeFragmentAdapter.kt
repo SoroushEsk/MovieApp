@@ -33,6 +33,7 @@ class HomeFragmentAdapter(
     private lateinit var genreAdapter           : GenreAdapter
     private lateinit var onPageChangeListener   : ViewPager2.OnPageChangeCallback
     private lateinit var lastMoveRecyclerBinding: LastMovieItemBinding
+    private var movieClickListener: OnMovieClickListener? = null
     private val layoutParams = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -48,6 +49,9 @@ class HomeFragmentAdapter(
         private const val GENRE_RECYCLER_VIEW = 2
         private const val LAST_MOVIE_TITLE = 3
         private const val LAST_MOVIE_RECYCLER = 4
+    }
+    interface OnMovieClickListener {
+        fun onMovieClick(movie: Movie)
     }
     inner class TopMovieSliderViewHolder(
         private val binding: TopMovieSliderViewBinding,
@@ -196,8 +200,14 @@ class HomeFragmentAdapter(
             }
             is LastMovieViewHolder      -> {
                 holder.bindData(movies[position- NUMBER_OF_TOP_VIEWS])
+                holder.itemView.setOnClickListener{
+                    movieClickListener?.onMovieClick(movies[position- NUMBER_OF_TOP_VIEWS])
+                }
             }
         }
+    }
+    fun setOnMovieClickListener(listener: OnMovieClickListener) {
+        movieClickListener = listener
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateMovies(moviesResponce: List<Movie>) {

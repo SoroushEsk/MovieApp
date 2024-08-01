@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:clickable="true"
     android:padding="16dp"
+    android:id="@+id/lastMovieItem"
     android:orientation="horizontal"
     android:gravity="start"
     android:contextClickable="true"

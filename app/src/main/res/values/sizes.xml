@@ -2,12 +2,13 @@
 <resources>
     <dimen name="homeFragmentIconHeight">20dp</dimen>
     <dimen name="homeFragmentMarginVer">6dp</dimen>
-    <dimen name="moviePagePosterHeight">450dp</dimen>
+    <dimen name="moviePagePosterHeight">500dp</dimen>
     <dimen name="posterNameFontSize">11pt</dimen>
     <dimen name="topMoviePageIconSize">40dp</dimen>
-    <dimen name="moviePageBodyFontSize">6pt</dimen>
-    <dimen name="moviePageHeaderFontSize">7pt</dimen>
+    <dimen name="moviePageBodyFontSize">7pt</dimen>
+    <dimen name="moviePageHeaderFontSize">8pt</dimen>
     <dimen name="moviePageIconPadding">10dp</dimen>
     <dimen name="moviePageIconSize">40dp</dimen>
     <dimen name="moviePageHorizMargin">16dp</dimen>
+    <dimen name="movieImageItemSize">150dp</dimen>
 </resources>

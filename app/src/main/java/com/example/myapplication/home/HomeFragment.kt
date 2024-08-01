@@ -1,5 +1,6 @@
 package com.example.myapplication.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModel
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModelFactory
+import com.example.myapplication.features.movie.domain.model.Movie
 import com.example.myapplication.features.movie.presentation.ui.adapter.HomeFragmentAdapter
 import com.example.myapplication.features.movie.presentation.ui.scroll.EndlessRecyclerViewScrollListener
 import com.example.myapplication.features.movie.presentation.viewmodel.*
+import com.example.myapplication.moviedetail.MoviePage
+import com.example.myapplication.shared_componenet.constants.Constants
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeFragmentAdapter.OnMovieClickListener {
     //region properties
     private lateinit var binding: FragmentHomeBinding
     private lateinit var movieViewModel: MovieViewModel
@@ -53,11 +57,17 @@ class HomeFragment : Fragment() {
     fun initAdapter() {
         pageAdapter = HomeFragmentAdapter()
         binding.homePageRecyclerView.adapter = pageAdapter
+        pageAdapter.setOnMovieClickListener(this)
         binding.homePageRecyclerView.layoutManager =
         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
     //endregion
     //region method
+    override fun onMovieClick(movie: Movie){
+        val intent = Intent(requireContext(), MoviePage::class.java)
+        intent.putExtra(Constants.Intent_Movie_Id, movie.id)
+        startActivity(intent)
+    }
     private fun viewModelConfig() {
         movieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
             pageAdapter.updateMovies(movieList.data)

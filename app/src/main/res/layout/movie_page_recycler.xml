@@ -1,97 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/moviePagePosterHeight"
-        >
+        android:layout_height="@dimen/moviePagePosterHeight">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_height="@dimen/moviePagePosterHeight"
-            >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
+                android:id="@+id/posterTransparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/posterTransparent"
-                android:scaleType="centerCrop"
                 android:alpha="0.16"
-                />
+                android:scaleType="centerCrop" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/moviePagePosterHeight"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             android:orientation="vertical"
-            >
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
+
                 <ImageButton
-                    android:layout_width="@dimen/topMoviePageIconSize"
-                    android:layout_height="match_parent"
                     android:id="@+id/backButton"
-                    android:clickable="true"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:scaleType="fitCenter"
-                    android:background="@null"
-                    android:layout_marginStart="16dp"
-                    android:padding="12dp"
-                    app:tint="@color/app_gray_color" />
-                <ImageButton
                     android:layout_width="@dimen/topMoviePageIconSize"
                     android:layout_height="match_parent"
-                    android:clickable="true"
-                    android:id="@+id/likeButton"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:scaleType="fitCenter"
+                    android:layout_marginStart="16dp"
                     android:background="@null"
-                    android:padding="10dp"
-                    android:layout_marginEnd="16dp"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="8"
-                android:layout_gravity="center"
-                app:cardElevation="0f"
-                android:background="@null"
-                app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="20dp"
-                >
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
+                    android:clickable="true"
+                    android:padding="12dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:tint="@color/app_gray_color" />
+
+                <ImageButton
+                    android:id="@+id/likeButton"
+                    android:layout_width="@dimen/topMoviePageIconSize"
                     android:layout_height="match_parent"
-                    android:background="@null">
+                    android:layout_marginEnd="16dp"
+                    android:background="@null"
+                    android:clickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    app:cardBackgroundColor="@android:color/transparent"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
                     <ImageView
+                        android:id="@+id/moviePagePoster"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/moviePagePoster"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:id="@+id/posterMovieTitle"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:fontFamily="sans-serif"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/posterNameFontSize"/>
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/posterMovieTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/posterNameFontSize"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -138,7 +141,7 @@
                         app:tint="@color/app_gray_color" />
 
                     <TextView
-                        android:id="duratinAmount"
+                        android:id="@+id/duratinAmount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -174,73 +177,79 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="@dimen/moviePageIconSize"
-        android:gravity="center_vertical"
-        android:layout_marginVertical="4dp"
-        android:orientation="horizontal"
         android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
-        >
+        android:layout_marginVertical="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
         <ImageView
-            android:layout_width="@dimen/moviePageIconSize"
-            android:layout_height="match_parent"
             android:id="@+id/summaryIcon"
+            android:layout_width="@dimen/moviePageIconSize"
+            android:layout_height="match_parent"
             android:padding="8dp"
-            app:tint="@color/app_gray_color"/>
+            app:tint="@color/app_gray_color" />
+
         <TextView
+            android:id="@+id/summaryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:id="@+id/summaryTitle"
             android:fontFamily="sans-serif-light"
-            android:textSize="@dimen/moviePageHeaderFontSize"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/moviePageHeaderFontSize" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+
     <TextView
+        android:id="@+id/summaryDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:id="@+id/summaryDescription"
         android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
         android:fontFamily="sans-serif-light"
-        android:textSize="@dimen/moviePageBodyFontSize"/>
+        android:textColor="@color/white"
+        android:textSize="@dimen/moviePageBodyFontSize" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="@dimen/moviePageIconSize"
-        android:gravity="center_vertical"
-        android:layout_marginVertical="4dp"
-        android:orientation="horizontal"
         android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
-        >
+        android:layout_marginVertical="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
         <ImageView
+            android:id="@+id/actorIcon"
             android:layout_width="@dimen/moviePageIconSize"
             android:layout_height="match_parent"
-            android:id="@+id/actorIcon"
             android:padding="8dp"
-            app:tint="@color/app_gray_color"/>
+            app:tint="@color/app_gray_color" />
+
         <TextView
+            android:id="@+id/actorTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:fontFamily="sans-serif-light"
-            android:textSize="@dimen/moviePageHeaderFontSize"
-            android:id="@+id/actorTitle"/>
+            android:textColor="@color/white"
+            android:textSize="@dimen/moviePageHeaderFontSize" />
     </androidx.appcompat.widget.LinearLayoutCompat>
+
     <TextView
+        android:id="@+id/movieActorList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/moviePageHorizMargin"
-        android:textColor="@color/white"
-        android:id="@+id/movieActorList"
         android:fontFamily="sans-serif-light"
-        android:textSize="@dimen/moviePageBodyFontSize"
-        android:justificationMode="inter_word"/>
+        android:justificationMode="inter_word"
+        android:textColor="@color/white"
+        android:textSize="@dimen/moviePageBodyFontSize" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
         android:id="@+id/moviePictureRecycler"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/moviePageHorizMargin"
         android:clipToPadding="true"
-        android:paddingHorizontal="@dimen/moviePageHorizMargin"/>
+        android:paddingHorizontal="@dimen/moviePageHorizMargin" />
 </androidx.appcompat.widget.LinearLayoutCompat>
