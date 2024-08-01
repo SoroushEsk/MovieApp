@@ -11,11 +11,18 @@ import com.example.myapplication.features.movie.domain.model.Movie
 import com.example.myapplication.features.movie.domain.model.MoviesResponse
 import com.example.myapplication.shared_componenet.constants.Constants
 
-class TopMovieSliderAdapter (private var movies : List<Movie> = listOf()) :
+class TopMovieSliderAdapter (
+    private val onMovieClickListener: TopMovieSliderAdapter.OnSliderMovieClickListener?,
+    private var movies : List<Movie> = listOf()) :
         RecyclerView.Adapter<TopMovieSliderAdapter.TopMovieViewHolder>()
 {
 
     private lateinit var binding: TopMovieViewBinding
+
+    interface OnSliderMovieClickListener {
+        fun onSliderMovieClick(movie: Movie)
+    }
+
     inner class TopMovieViewHolder(private val binding : TopMovieViewBinding) :
             RecyclerView.ViewHolder(binding.root){
         fun bindData(movie : Movie){
@@ -41,6 +48,9 @@ class TopMovieSliderAdapter (private var movies : List<Movie> = listOf()) :
     override fun onBindViewHolder(holder : TopMovieViewHolder, position: Int) {
         if (movies.isNotEmpty()) {
             holder.bindData(movies.get(position))
+            holder.itemView.setOnClickListener{
+                onMovieClickListener?.onSliderMovieClick(movies[position])
+            }
         }
     }
     @SuppressLint("NotifyDataSetChanged")

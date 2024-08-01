@@ -9,16 +9,23 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.features.genre.domain.model.Genre
+import com.example.myapplication.features.genre.presentation.ui.adapter.GenreAdapter
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModel
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModelFactory
 import com.example.myapplication.features.movie.domain.model.Movie
 import com.example.myapplication.features.movie.presentation.ui.adapter.HomeFragmentAdapter
+import com.example.myapplication.features.movie.presentation.ui.adapter.TopMovieSliderAdapter
 import com.example.myapplication.features.movie.presentation.ui.scroll.EndlessRecyclerViewScrollListener
 import com.example.myapplication.features.movie.presentation.viewmodel.*
 import com.example.myapplication.moviedetail.MoviePage
 import com.example.myapplication.shared_componenet.constants.Constants
 
-class HomeFragment : Fragment(), HomeFragmentAdapter.OnMovieClickListener {
+class HomeFragment
+    : Fragment(),
+        HomeFragmentAdapter.OnMovieClickListener ,
+        TopMovieSliderAdapter.OnSliderMovieClickListener,
+        GenreAdapter.OnGenreClickListener {
     //region properties
     private lateinit var binding: FragmentHomeBinding
     private lateinit var movieViewModel: MovieViewModel
@@ -56,14 +63,23 @@ class HomeFragment : Fragment(), HomeFragmentAdapter.OnMovieClickListener {
     }
     fun initAdapter() {
         pageAdapter = HomeFragmentAdapter()
-        binding.homePageRecyclerView.adapter = pageAdapter
         pageAdapter.setOnMovieClickListener(this)
+        pageAdapter.setOnSliderClick(this)
+        binding.homePageRecyclerView.adapter = pageAdapter
         binding.homePageRecyclerView.layoutManager =
         LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
     //endregion
-    //region method
+    //region methods
+    override fun genreClick(genre: Genre) {
+        TODO("Not yet implemented")
+    }
     override fun onMovieClick(movie: Movie){
+        val intent = Intent(requireContext(), MoviePage::class.java)
+        intent.putExtra(Constants.Intent_Movie_Id, movie.id)
+        startActivity(intent)
+    }
+    override fun onSliderMovieClick(movie: Movie) {
         val intent = Intent(requireContext(), MoviePage::class.java)
         intent.putExtra(Constants.Intent_Movie_Id, movie.id)
         startActivity(intent)

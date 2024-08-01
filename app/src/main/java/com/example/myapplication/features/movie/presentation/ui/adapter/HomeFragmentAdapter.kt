@@ -34,6 +34,9 @@ class HomeFragmentAdapter(
     private lateinit var onPageChangeListener   : ViewPager2.OnPageChangeCallback
     private lateinit var lastMoveRecyclerBinding: LastMovieItemBinding
     private var movieClickListener: OnMovieClickListener? = null
+    private var sliderMovieClickListener: TopMovieSliderAdapter.OnSliderMovieClickListener? = null
+    private var genreClickListener: GenreAdapter.OnGenreClickListener? = null
+
     private val layoutParams = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -117,7 +120,7 @@ class HomeFragmentAdapter(
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == TOP_MOVIE_VIEW_PAGER) {
-            sliderAdapter = TopMovieSliderAdapter()
+            sliderAdapter = TopMovieSliderAdapter(sliderMovieClickListener)
             sliderBinding = TopMovieSliderViewBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -153,7 +156,7 @@ class HomeFragmentAdapter(
                 false
             )
         } else if ( viewType == GENRE_RECYCLER_VIEW ){
-            genreAdapter = GenreAdapter()
+            genreAdapter = GenreAdapter(genreClickListener)
             genreRecyclerBinding = GenreRecyclerBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -208,6 +211,12 @@ class HomeFragmentAdapter(
     }
     fun setOnMovieClickListener(listener: OnMovieClickListener) {
         movieClickListener = listener
+    }
+    fun setOnSliderClick(listener: TopMovieSliderAdapter.OnSliderMovieClickListener){
+        sliderMovieClickListener = listener
+    }
+    fun setOnGenreClick(listener: GenreAdapter.OnGenreClickListener){
+        genreClickListener = listener
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateMovies(moviesResponce: List<Movie>) {
