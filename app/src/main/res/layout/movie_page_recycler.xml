@@ -20,7 +20,7 @@
                 android:id="@+id/posterTransparent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.16"
+                android:alpha="0.14"
                 android:scaleType="centerCrop" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -34,30 +34,34 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="wrap_content"
+                >
 
                 <ImageButton
                     android:id="@+id/backButton"
                     android:layout_width="@dimen/topMoviePageIconSize"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/topMoviePageIconSize"
                     android:layout_marginStart="16dp"
-                    android:background="@null"
+                    android:background="@drawable/border_genre_item"
                     android:clickable="true"
-                    android:padding="12dp"
+                    android:padding="10dp"
+                    android:layout_margin="4dp"
                     android:scaleType="fitCenter"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:tint="@color/app_gray_color" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/likeButton"
                     android:layout_width="@dimen/topMoviePageIconSize"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/topMoviePageIconSize"
                     android:layout_marginEnd="16dp"
-                    android:background="@null"
+                    android:layout_margin="4dp"
+                    android:background="@drawable/border_genre_item"
                     android:clickable="true"
-                    android:padding="10dp"
+                    android:padding="6dp"
                     android:scaleType="fitCenter"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 

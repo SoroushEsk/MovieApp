@@ -141,11 +141,9 @@ class HomeFragment
                     pageMovieViewModel.getMoviesByPage(CurrentPageNumber)
                 }
             }
-
             override fun isLastPage(): Boolean {
                 return CurrentPageNumber == MaxPageSize
             }
-
             override fun isLoading(): Boolean {
                 return pageAdapter.isLoading
             }

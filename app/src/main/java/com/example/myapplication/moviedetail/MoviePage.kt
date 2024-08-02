@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -38,6 +40,7 @@ class MoviePage : AppCompatActivity() {
     fun initBinding(){
         binding = ActivityMoviePageBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
     }
     fun initViewModel(){
         viewModel = ViewModelProvider(this, MovieDetailViewModelFactory())[MovieDetailedViewModel::class.java]
@@ -53,7 +56,15 @@ class MoviePage : AppCompatActivity() {
         binding.moviePageRecycler.adapter = pageAdapter
         binding.moviePageRecycler.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
     }
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    )
+        }
+    }
+
     //endregion
 }

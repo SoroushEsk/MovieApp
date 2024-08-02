@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -52,7 +53,10 @@ class MoviePageAdapter(private var movies: List<MovieDetailed> = listOf())
                     }
                 })
                 .into(binding.moviePagePoster)
-
+            ImageViewCompat.setImageTintList(
+                binding.likeButton,
+                ContextCompat.getColorStateList(binding.root.context, R.color.app_gray_color)
+            )
             binding.backButton.setImageResource(R.drawable.previous)
             binding.likeButton.setImageResource(R.drawable.movie_like)
             binding.ratingIcon.setImageResource(R.drawable.star)
@@ -92,6 +96,10 @@ class MoviePageAdapter(private var movies: List<MovieDetailed> = listOf())
             (parent.context as? Activity)?.finish()
         }
         binding.likeButton.setOnClickListener {
+            ImageViewCompat.setImageTintList(
+                binding.likeButton,
+                ContextCompat.getColorStateList(parent.context, R.color.red)
+            )
             // TODO("saving the movie in database")
         }
         return MovieDetailViewHolder(binding)

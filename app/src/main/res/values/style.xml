@@ -4,6 +4,11 @@
 <!--        <item name="cornerFamily">rounded</item>-->
 <!--        <item name="cornerSize">20dp</item> &lt;!&ndash; Adjust the corner radius as needed &ndash;&gt;-->
 <!--    </style>-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here -->
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
+
     <style name="SplashScreenStyle"  parent="Theme.AppCompat.Light.NoActionBar">
         <item name="cornerFamily">rounded</item>
         <item name="android:windowIsTranslucent">true</item>

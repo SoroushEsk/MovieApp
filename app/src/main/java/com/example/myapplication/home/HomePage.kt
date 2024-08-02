@@ -32,7 +32,7 @@ class HomePage : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
-        window.statusBarColor = ContextCompat.getColor(this, android.R.color.transparent)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
     }
     private fun initFragment() {
         ImageViewCompat.setImageTintList(
