@@ -1,13 +1,10 @@
 package com.example.myapplication.utils.database.doe
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.myapplication.shared_componenet.constants.Constants
 import com.example.myapplication.features.movieentity.domain.model.MovieEntity
 
+@Dao
 interface MovieDao {
     @Insert( onConflict = OnConflictStrategy.REPLACE )
     fun insertMovie( movie : MovieEntity)
@@ -22,5 +19,5 @@ interface MovieDao {
     fun getAllMovies() : MutableList<MovieEntity>
 
     @Query("SELECT COUNT(1) FROM ${Constants.MovieTableName} WHERE ${Constants.MovieTableId}=:userID")
-    fun getUser(userID: Int) : Int
+    fun isMovieExists(userID: Int) : Int
 }

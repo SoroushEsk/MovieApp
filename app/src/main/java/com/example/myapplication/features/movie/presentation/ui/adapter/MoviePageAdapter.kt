@@ -22,12 +22,19 @@ import com.example.myapplication.features.movie.domain.model.Movie
 import com.example.myapplication.features.movie.domain.model.MovieDetailed
 import com.example.myapplication.shared_componenet.constants.Constants
 
-class MoviePageAdapter(private var movies: List<MovieDetailed> = listOf())
+class MoviePageAdapter(
+    private val listener: MoviePageAdapter.onLikeButtonClick,
+    private var movies: List<MovieDetailed> = listOf())
     :RecyclerView.Adapter<MoviePageAdapter.MovieDetailViewHolder>(){
     //region properties
     private lateinit var binding: MoviePageRecyclerBinding
     //endregion
     //region SubClasses
+    interface onLikeButtonClick{
+        fun isMovieExists(movie : MovieDetailed) : Boolean
+        fun deleteMovie(movie : MovieDetailed)
+        fun insertMovie(movie : MovieDetailed)
+    }
     inner class MovieDetailViewHolder(private val binding: MoviePageRecyclerBinding)
         :RecyclerView.ViewHolder(binding.root){
         fun bindData(movie : MovieDetailed){
@@ -53,10 +60,17 @@ class MoviePageAdapter(private var movies: List<MovieDetailed> = listOf())
                     }
                 })
                 .into(binding.moviePagePoster)
-            ImageViewCompat.setImageTintList(
-                binding.likeButton,
-                ContextCompat.getColorStateList(binding.root.context, R.color.app_gray_color)
-            )
+            if ( listener.isMovieExists(movie) ){
+                ImageViewCompat.setImageTintList(
+                    binding.likeButton,
+                    ContextCompat.getColorStateList(binding.root.context, R.color.red)
+                )
+            }else {
+                ImageViewCompat.setImageTintList(
+                    binding.likeButton,
+                    ContextCompat.getColorStateList(binding.root.context, R.color.app_gray_color)
+                )
+            }
             binding.backButton.setImageResource(R.drawable.previous)
             binding.likeButton.setImageResource(R.drawable.movie_like)
             binding.ratingIcon.setImageResource(R.drawable.star)
@@ -95,17 +109,26 @@ class MoviePageAdapter(private var movies: List<MovieDetailed> = listOf())
         binding.backButton.setOnClickListener{
             (parent.context as? Activity)?.finish()
         }
-        binding.likeButton.setOnClickListener {
-            ImageViewCompat.setImageTintList(
-                binding.likeButton,
-                ContextCompat.getColorStateList(parent.context, R.color.red)
-            )
-            // TODO("saving the movie in database")
-        }
         return MovieDetailViewHolder(binding)
     }
     override fun onBindViewHolder(holder: MovieDetailViewHolder, position: Int) {
         holder.bindData(movies[position])
+
+        binding.likeButton.setOnClickListener {
+            if ( listener.isMovieExists(movies[position]) ){
+                ImageViewCompat.setImageTintList(
+                    binding.likeButton,
+                    ContextCompat.getColorStateList(binding.root.context, R.color.app_gray_color)
+                )
+                listener.deleteMovie(movies[position])
+            }else {
+                ImageViewCompat.setImageTintList(
+                    binding.likeButton,
+                    ContextCompat.getColorStateList(binding.root.context, R.color.red)
+                )
+                listener.insertMovie(movies[position])
+            }
+        }
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(movie: List<MovieDetailed>) {

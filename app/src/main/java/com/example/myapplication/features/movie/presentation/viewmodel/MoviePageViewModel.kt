@@ -21,7 +21,7 @@ class MoviePageViewModel (private val repository: MoviesPageRepository) : ViewMo
         }
     }
 }
-class MoviePageViewModelFactory(): ViewModelProvider.Factory{
+class MovieDetailedPageViewModelFactory(): ViewModelProvider.Factory{
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass : Class<T>) : T {
         if ( modelClass.isAssignableFrom(MoviePageViewModel::class.java)){
