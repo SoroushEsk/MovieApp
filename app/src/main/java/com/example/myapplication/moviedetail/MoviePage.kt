@@ -88,9 +88,13 @@ class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
     override fun isMovieExists(movie: MovieDetailed): Boolean = isMovieInDatabase
     override fun deleteMovie(movie: MovieDetailed) {
         roomDBViewModel.deleteMovie(MovieEntity(movie.id, movie.title, movie.poster, movie.country, movie.imdb_rating, movie.year))
+        roomDBViewModel.isMovieExists(movie.id)
+        isMovieInDatabase = false
     }
     override fun insertMovie(movie: MovieDetailed) {
         roomDBViewModel.insertMovie(MovieEntity(movie.id, movie.title, movie.poster, movie.country, movie.imdb_rating, movie.year))
+        roomDBViewModel.isMovieExists(movie.id)
+        isMovieInDatabase = true
     }
     //endregion
 }

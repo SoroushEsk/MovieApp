@@ -41,7 +41,7 @@ class MoviePageAdapter(
     }
     inner class MovieDetailViewHolder(private val binding: MoviePageRecyclerBinding)
         :RecyclerView.ViewHolder(binding.root){
-        fun bindData(movie : MovieDetailed){
+        fun bindData(movie : MovieDetailed, position: Int){
             Glide.with(binding.root.context)
                 .load(movie.poster)
                 .into(binding.posterTransparent)
@@ -114,7 +114,11 @@ class MoviePageAdapter(
         return MovieDetailViewHolder(binding)
     }
     override fun onBindViewHolder(holder: MovieDetailViewHolder, position: Int) {
-        holder.bindData(movies[position])
+        holder.bindData(movies[position], position)
+
+    }
+    fun updateItem(movie: MovieDetailed, position : Int) {
+        notifyItemChanged(position)
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(movie: List<MovieDetailed>) {
