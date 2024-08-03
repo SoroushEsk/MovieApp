@@ -21,18 +21,16 @@ class FavoriteFragmentViewModel(private val repository: FavoriteFragmentReposito
         }
     }
 }
-
 class FavoriteFragmentViewModelFactory(private val context: Context) : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MoviePageViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(FavoriteFragmentViewModel::class.java)) {
             val module = FavoriteFragmentViewModelModule.getInstance(context)
             return FavoriteFragmentViewModel(module.favoriteFragmentRepository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
-
 class FavoriteFragmentViewModelModule private constructor(context: Context) {
     companion object {
         @Volatile

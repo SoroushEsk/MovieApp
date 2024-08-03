@@ -17,6 +17,10 @@ import com.example.myapplication.features.movieentity.domain.model.MovieEntity
 import com.example.myapplication.features.movieentity.presentation.viewmodel.MoviePageViewModel
 import com.example.myapplication.features.movieentity.presentation.viewmodel.MoviePageViewModelFactory
 import com.example.myapplication.shared_componenet.constants.Constants
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
     //region properties
@@ -51,6 +55,15 @@ class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
     fun viewModelConfig(){
         viewModel.movie.observe(this){movieDetail->
             pageAdapter.updateData(listOf(movieDetail.data))
+        }
+        viewModel.loadingState.observe(this){
+            if ( it ){
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1000L)
+                    binding.loadAnimation.visibility = View.GONE
+                    binding.moviePageRecycler.visibility = View.VISIBLE
+                }
+            }
         }
         roomDBViewModel.status.observe(this){movieStatus->
             isMovieInDatabase = movieStatus

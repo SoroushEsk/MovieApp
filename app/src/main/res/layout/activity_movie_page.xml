@@ -9,8 +9,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/moviePageRecycler"/>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadAnimation"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:lottie_rawRes="@raw/load_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

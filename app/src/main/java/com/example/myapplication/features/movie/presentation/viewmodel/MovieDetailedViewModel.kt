@@ -12,13 +12,16 @@ class MovieDetailedViewModel (private val respository : MovieDetailRepository)
     :ViewModel(){
     private val _movie = MutableLiveData<MovieDetailResponse>()
     val movie : LiveData<MovieDetailResponse> get() = _movie
-
+    private val _loadingState = MutableLiveData<Boolean>()
+    val loadingState: LiveData<Boolean> get() = _loadingState
     fun getMovieById(movieId : Int){
         viewModelScope.launch{
             try{
                 val response = respository.getMovieById(movieId)
+                _loadingState.postValue(true)
                 _movie.postValue(response)
             }catch(e:Exception){
+                _loadingState.postValue(false)
                 Log.e("MovieDetailedViewModel", "Error Fetching movie", e)
             }
         }

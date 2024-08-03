@@ -1,7 +1,5 @@
 package com.example.myapplication.shared_componenet.constants
 
-import com.example.myapplication.utils.database.MovieAppDatabase
-
 object Constants {
     const val AppSharedPreference       : String = "top_movie_app"
     const val UserID                    : String = "top_movie_app_user_id"
@@ -19,6 +17,9 @@ object Constants {
     const val MovieTableImdbRating      : String = "movie_imdb_rating"
     const val MovieTableYear            : String = "movie_year"
     const val MovieAppDatabase          : String = "movie_database"
-    const val SliderDuration            : Long = 5000L
-    const val Top_Movie_Size            : Int = 5
+    const val MovieFragmentTag          : String = "movie_fragment"
+    const val SearchFragmentTag         : String = "search_fragment"
+    const val FavoriteFragmentTag      : String = "favorite_fragment"
+    const val SliderDuration            : Long   = 5000L
+    const val Top_Movie_Size            : Int    = 5
 }

@@ -1,25 +1,30 @@
 package com.example.myapplication.home
 
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.example.myapplication.shared_componenet.constants.Constants
 import android.view.View
-import android.view.WindowManager
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
+import androidx.fragment.app.FragmentManager
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomePageBinding
+import com.example.myapplication.fragment.favorite.FavoriteFragment
+import com.example.myapplication.utils.FragmentTypes
 
 class HomePage : AppCompatActivity() {
     //region Attributes
     private lateinit var binding : ActivityHomePageBinding
+    private lateinit var currentFragment : FragmentTypes
     //endregion
     //region lifeCycle
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initBinding()
         initFragment()
+        homeIconAction()
+        favoriteIconAction()
     }
     //region Initialize
     private fun initBinding() {
@@ -40,14 +45,82 @@ class HomePage : AppCompatActivity() {
             ContextCompat.getColorStateList(this, R.color.app_yellow_color)
         )
         supportFragmentManager.beginTransaction()
-            .add(binding.homePageFragmentContainer.id, HomeFragment())
+            .replace(binding.homePageFragmentContainer.id, HomeFragment(), Constants.MovieFragmentTag)
+            .addToBackStack(Constants.MovieFragmentTag)
             .commit()
+        currentFragment = FragmentTypes.MovieFragment
     }
     //endregion
     //region methods
+    private fun homeIconAction(){
+        binding.homePageHomeIcon.setOnClickListener{
+            Log.e("ButtonClick", "movie")
+            when (currentFragment) {
+                FragmentTypes.MovieFragment -> return@setOnClickListener
+                FragmentTypes.FavoriteFragment -> {
+                    ImageViewCompat.setImageTintList(
+                        binding.homePageLikeIcon,
+                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
+                    )
+                }
+                FragmentTypes.SearchFragment -> {
+                    ImageViewCompat.setImageTintList(
+                        binding.homePageSearchIcon,
+                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
+                    )
+                }
+            }
+            ImageViewCompat.setImageTintList(
+                binding.homePageHomeIcon,
+                ContextCompat.getColorStateList(this, R.color.app_yellow_color)
+            )
+            val fragmentManager = supportFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(binding.homePageFragmentContainer.id, HomeFragment(), Constants.MovieFragmentTag)
+                .addToBackStack(Constants.MovieFragmentTag)
+                .commit()
 
+            currentFragment = FragmentTypes.MovieFragment
+        }
+    }
+    fun favoriteIconAction(){
+        binding.homePageLikeIcon.setOnClickListener{
+            Log.e("ButtonClick", "favorite")
+            when (currentFragment) {
+                FragmentTypes.FavoriteFragment -> return@setOnClickListener
+                FragmentTypes.MovieFragment -> {
+                    ImageViewCompat.setImageTintList(
+                        binding.homePageHomeIcon,
+                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
+                    )
+                }
+                FragmentTypes.SearchFragment -> {
+                    ImageViewCompat.setImageTintList(
+                        binding.homePageSearchIcon,
+                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
+                    )
+                }
+            }
+            ImageViewCompat.setImageTintList(
+                binding.homePageLikeIcon,
+                ContextCompat.getColorStateList(this, R.color.app_yellow_color)
+            )
+            val fragmentManager = supportFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(binding.homePageFragmentContainer.id, FavoriteFragment(), Constants.FavoriteFragmentTag)
+                .addToBackStack(Constants.FavoriteFragmentTag)
+                .commit()
+
+            currentFragment = FragmentTypes.FavoriteFragment
+        }
+    }
     //endregion
     //region override methods
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val fragmentManager = supportFragmentManager
+        finish()
+    }
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) {

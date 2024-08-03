@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.example.myapplication.R
 import com.example.myapplication.databinding.MoviePageRecyclerBinding
@@ -30,6 +31,9 @@ class MoviePageAdapter(
     private lateinit var binding: MoviePageRecyclerBinding
     //endregion
     //region SubClasses
+    companion object{
+        const val posterRevealDuratin = 1000
+    }
     interface onLikeButtonClick{
         fun isMovieExists(movie : MovieDetailed) : Boolean
         fun deleteMovie(movie : MovieDetailed)
@@ -43,22 +47,7 @@ class MoviePageAdapter(
                 .into(binding.posterTransparent)
             Glide.with(binding.root.context)
                 .load(movie.poster)
-                .placeholder(R.drawable.a)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, isFirstResource: Boolean
-                    ): Boolean {
-                        Log.e("Glide", "Image load failed: ${e?.message}")
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?, model: Any?, target: com.bumptech.glide.request.target.Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean
-                    ): Boolean {
-                        Log.d("Glide", "Image loaded successfully")
-                        return false
-                    }
-                })
+                .transition(DrawableTransitionOptions.withCrossFade(posterRevealDuratin))
                 .into(binding.moviePagePoster)
             if ( listener.isMovieExists(movie) ){
                 ImageViewCompat.setImageTintList(
@@ -94,7 +83,6 @@ class MoviePageAdapter(
                     LinearLayoutManager.HORIZONTAL,
                     false
                 )
-
         }
     }
     //endregion
