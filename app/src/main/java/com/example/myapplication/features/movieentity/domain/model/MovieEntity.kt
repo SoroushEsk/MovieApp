@@ -8,7 +8,7 @@ import com.example.myapplication.shared_componenet.constants.Constants
 @Entity(tableName = Constants.MovieTableName)
 data class MovieEntity(
     @PrimaryKey
-    @ColumnInfo(name = Constants.MovieTableId)val id : Int,
+    @ColumnInfo(name = Constants.MovieTableId) val id : Int,
 
     @ColumnInfo(name = Constants.MovieTableTitle)
     val title       : String,
@@ -23,5 +23,8 @@ data class MovieEntity(
     val imdb_rating : String,
 
     @ColumnInfo(name = Constants.MovieTableYear)
-    val year        : String
+    val year        : String,
+
+    @ColumnInfo(name = "created_at")
+    val createdAt: Long = System.currentTimeMillis()
 )

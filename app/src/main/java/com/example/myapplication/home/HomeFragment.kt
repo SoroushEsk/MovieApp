@@ -45,6 +45,8 @@ class HomeFragment
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        MaxPageSize = 0
+        CurrentPageNumber = 1
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

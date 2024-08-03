@@ -74,7 +74,21 @@ class MoviePageAdapter(
             binding.actorTitle.text = Constants.ActorTitle
             binding.summaryTitle.text = Constants.SummaryTitle
             binding.movieActorList.text = movie.actors
-
+            binding.likeButton.setOnClickListener {
+                if ( listener.isMovieExists(movie) ){
+                    ImageViewCompat.setImageTintList(
+                        binding.likeButton,
+                        ContextCompat.getColorStateList(binding.root.context, R.color.app_gray_color)
+                    )
+                    listener.deleteMovie(movie)
+                }else {
+                    ImageViewCompat.setImageTintList(
+                        binding.likeButton,
+                        ContextCompat.getColorStateList(binding.root.context, R.color.red)
+                    )
+                    listener.insertMovie(movie)
+                }
+            }
             val photosAdapter = MovieImageAdapter(movie.images)
             binding.moviePictureRecycler.adapter = photosAdapter
             binding.moviePictureRecycler.layoutManager =
@@ -101,22 +115,6 @@ class MoviePageAdapter(
     }
     override fun onBindViewHolder(holder: MovieDetailViewHolder, position: Int) {
         holder.bindData(movies[position])
-
-        binding.likeButton.setOnClickListener {
-            if ( listener.isMovieExists(movies[position]) ){
-                ImageViewCompat.setImageTintList(
-                    binding.likeButton,
-                    ContextCompat.getColorStateList(binding.root.context, R.color.app_gray_color)
-                )
-                listener.deleteMovie(movies[position])
-            }else {
-                ImageViewCompat.setImageTintList(
-                    binding.likeButton,
-                    ContextCompat.getColorStateList(binding.root.context, R.color.red)
-                )
-                listener.insertMovie(movies[position])
-            }
-        }
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(movie: List<MovieDetailed>) {

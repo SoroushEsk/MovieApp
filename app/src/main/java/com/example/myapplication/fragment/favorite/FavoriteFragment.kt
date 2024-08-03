@@ -59,6 +59,7 @@ class FavoriteFragment : Fragment(), FavoriteFragmentAdapter.OnMovieClickListene
                 binding.movieRecycler.visibility = View.GONE
                 binding.loadAnimation.visibility = View.VISIBLE
             }else{
+                movieList.sortByDescending { it.createdAt }
                 fragmentAdapter.updateMovies(movieList)
                 binding.movieRecycler.visibility = View.VISIBLE
                 binding.loadAnimation.visibility = View.GONE

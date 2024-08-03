@@ -59,7 +59,7 @@ class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
         viewModel.loadingState.observe(this){
             if ( it ){
                 CoroutineScope(Dispatchers.Main).launch {
-                    delay(1000L)
+                    delay(700L)
                     binding.loadAnimation.visibility = View.GONE
                     binding.moviePageRecycler.visibility = View.VISIBLE
                 }

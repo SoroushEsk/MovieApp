@@ -15,6 +15,7 @@ interface MovieDao {
     @Delete
     fun deleteMovie( movie : MovieEntity)
 
+
     @Query("SELECT * FROM ${Constants.MovieTableName}")
     fun getAllMovies() : MutableList<MovieEntity>
 
