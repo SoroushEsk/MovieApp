@@ -87,12 +87,20 @@ class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
     //region adapter methods
     override fun isMovieExists(movie: MovieDetailed): Boolean = isMovieInDatabase
     override fun deleteMovie(movie: MovieDetailed) {
-        roomDBViewModel.deleteMovie(MovieEntity(movie.id, movie.title, movie.poster, movie.country, movie.imdb_rating, movie.year))
+        val text = movie.runtime
+        val regex = "\\d+".toRegex()
+        val match = regex.find(text)
+        val number : Int = (match?.value)?.toInt() ?: 0
+        roomDBViewModel.deleteMovie(MovieEntity(movie.id, movie.title, movie.poster, movie.country, movie.imdb_rating, movie.year, number))
         roomDBViewModel.isMovieExists(movie.id)
         isMovieInDatabase = false
     }
     override fun insertMovie(movie: MovieDetailed) {
-        roomDBViewModel.insertMovie(MovieEntity(movie.id, movie.title, movie.poster, movie.country, movie.imdb_rating, movie.year))
+        val text = movie.runtime
+        val regex = "\\d+".toRegex()
+        val match = regex.find(text)
+        val number : Int = (match?.value)?.toInt() ?: 0
+        roomDBViewModel.insertMovie(MovieEntity(movie.id, movie.title, movie.poster, movie.country, movie.imdb_rating, movie.year, number))
         roomDBViewModel.isMovieExists(movie.id)
         isMovieInDatabase = true
     }

@@ -61,6 +61,18 @@
             app:tint="@color/app_gray_color"
             />
 
+        <ImageView
+            android:id="@+id/home_page_profile_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/home_profile"
+            android:contextClickable="true"
+            android:clickable="true"
+            android:padding="16dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            app:tint="@color/app_gray_color"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

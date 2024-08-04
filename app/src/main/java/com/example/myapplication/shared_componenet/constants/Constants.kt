@@ -15,6 +15,7 @@ object Constants {
     const val MovieTablePoster          : String = "movie_poster"
     const val MovieTableCountry         : String = "movie_country"
     const val MovieTableImdbRating      : String = "movie_imdb_rating"
+    const val MovieTableDuration        : String = "movie_duration"
     const val MovieTableYear            : String = "movie_year"
     const val MovieAppDatabase          : String = "movie_database"
     const val MovieFragmentTag          : String = "movie_fragment"
@@ -22,4 +23,5 @@ object Constants {
     const val FavoriteFragmentTag      : String = "favorite_fragment"
     const val SliderDuration            : Long   = 5000L
     const val Top_Movie_Size            : Int    = 5
+
 }

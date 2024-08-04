@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityHomePageBinding
 import com.example.myapplication.fragment.favorite.FavoriteFragment
+import com.example.myapplication.fragment.search.SearchFragment
 import com.example.myapplication.utils.FragmentTypes
 
 class HomePage : AppCompatActivity() {
@@ -81,6 +82,37 @@ class HomePage : AppCompatActivity() {
                 .commit()
 
             currentFragment = FragmentTypes.MovieFragment
+        }
+    }
+    fun searchIconAction(){
+        binding.homePageLikeIcon.setOnClickListener{
+            Log.e("ButtonClick", "favorite")
+            when (currentFragment) {
+                FragmentTypes.SearchFragment -> return@setOnClickListener
+                FragmentTypes.MovieFragment -> {
+                    ImageViewCompat.setImageTintList(
+                        binding.homePageHomeIcon,
+                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
+                    )
+                }
+                FragmentTypes.FavoriteFragment -> {
+                    ImageViewCompat.setImageTintList(
+                        binding.homePageLikeIcon,
+                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
+                    )
+                }
+            }
+            ImageViewCompat.setImageTintList(
+                binding.homePageSearchIcon,
+                ContextCompat.getColorStateList(this, R.color.app_yellow_color)
+            )
+            val fragmentManager = supportFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(binding.homePageFragmentContainer.id, SearchFragment(), Constants.SearchFragmentTag)
+                .addToBackStack(Constants.SearchFragmentTag)
+                .commit()
+
+            currentFragment = FragmentTypes.SearchFragment
         }
     }
     fun favoriteIconAction(){
