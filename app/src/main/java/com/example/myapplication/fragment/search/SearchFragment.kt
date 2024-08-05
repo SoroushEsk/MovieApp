@@ -1,60 +1,148 @@
 package com.example.myapplication.fragment.search
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
+import com.example.myapplication.databinding.FragmentSearchBinding
+import com.example.myapplication.databinding.SearchMovieItemBinding
+import com.example.myapplication.features.movie.domain.model.Movie
+import com.example.myapplication.features.movie.presentation.ui.adapter.SearchRecyclerAdapter
+import com.example.myapplication.features.movie.presentation.ui.scroll.EndlessRecyclerViewScrollListener
+import com.example.myapplication.features.movie.presentation.viewmodel.SearchMovieViewModelFactory
+import com.example.myapplication.features.movie.presentation.viewmodel.SearchViewModel
+import com.example.myapplication.moviedetail.MoviePage
+import com.example.myapplication.shared_componenet.constants.Constants
+import kotlinx.coroutines.*
+import kotlin.math.max
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SearchFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
+    //region properties
+    private var recyclerViewState       : Parcelable? = null
+    private var scrollPosition          : Int         = 0
+    private var keyWord                 : String?     = null
+    private val coroutineScope                        = CoroutineScope(Dispatchers.Main + Job())
+    private var searchJob               : Job?        = null
+    private val debounceTime            : Long        = 300L
+    private var isNewKeyWord            : Boolean     = true
+    private lateinit var binding        : FragmentSearchBinding
+    private lateinit var viewModel      : SearchViewModel
+    private lateinit var pageAdapter    : SearchRecyclerAdapter
+    companion object{
+        var maxPageSize       :Int = 0
+        var currentPageNumber :Int = 1
     }
-
+    //endregion
+    //region lifecycle method
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search, container, false)
+    ): View {
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        maxPageSize = 0
+        currentPageNumber = 1
+        keyWord = null
+        return binding.root
     }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewModel()
+        initAdapter()
+        viewModelConfig()
+        initScrollLinstener()
+        initRealTimeSearch()
+        if (recyclerViewState != null) {
+            binding.searchRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
+            (binding.searchRecycler.layoutManager as LinearLayoutManager).scrollToPosition(scrollPosition)
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        recyclerViewState = binding.searchRecycler.layoutManager?.onSaveInstanceState()
+        scrollPosition = (binding.searchRecycler.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+    }
+    //endregion
+    //region override methods
+    override fun onMovieClick(movie: Movie) {
+        val intent = Intent(requireContext(), MoviePage::class.java)
+        intent.putExtra(Constants.Intent_Movie_Id, movie.id)
+        startActivity(intent)
+    }
+    //endregion
+    //region initiation methods
+    private fun initAdapter(){
+        pageAdapter = SearchRecyclerAdapter(this)
+        binding.searchRecycler.adapter = pageAdapter
+        binding.searchRecycler.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+    private fun initViewModel(){
+        viewModel = ViewModelProvider(this, SearchMovieViewModelFactory())[SearchViewModel::class.java]
+    }
+    private fun initScrollLinstener(){
+        val layoutManager:LinearLayoutManager =
+            binding.searchRecycler.layoutManager as LinearLayoutManager
+        binding.searchRecycler.addOnScrollListener(
+            object : EndlessRecyclerViewScrollListener(layoutManager)
+        {
+            override fun loadMoreItems() {
+                pageAdapter.isLoading = true
+                currentPageNumber++
+                isNewKeyWord = false
+                if ( currentPageNumber <= maxPageSize && keyWord != null){
+                    viewModel.searchMovie(currentPageNumber, keyWord!!)
                 }
             }
+            override fun isLastPage(): Boolean {
+                return currentPageNumber == maxPageSize
+            }
+            override fun isLoading(): Boolean {
+                return pageAdapter.isLoading
+            }
+        }
+        )
     }
+    private fun initRealTimeSearch(){
+        val searchEditText = binding.searchTextInput
+        searchEditText.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchJob?.cancel()
+                searchJob = coroutineScope.launch {
+                    delay(debounceTime)
+                    s?.toString()?.let{searchQuery->
+                        performSearch(searchQuery)
+                    }
+                }
+            }
+            override fun afterTextChanged(p0: Editable?) {}
+        })
+    }
+    //endregion
+    //region function
+    private fun viewModelConfig(){
+        viewModel.movies.observe(viewLifecycleOwner){movieResponse->
+            if ( isNewKeyWord)
+                pageAdapter.setMovies(movieResponse.data)
+            else pageAdapter.updateMovies(movieResponse.data)
+            pageAdapter.isLoading = false
+            maxPageSize = movieResponse.metadata.page_count
+            currentPageNumber = movieResponse.metadata.current_page
+        }
+    }
+    private fun performSearch(query : String){
+        currentPageNumber = 1
+        isNewKeyWord = true
+        viewModel.searchMovie(currentPageNumber, query)
+    }
+    //endregion
 }

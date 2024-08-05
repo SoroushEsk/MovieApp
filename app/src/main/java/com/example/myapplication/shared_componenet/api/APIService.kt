@@ -27,6 +27,9 @@ interface APIService {
 
     @GET("movies/{page}")
     suspend fun getMoviePage(@Path("page") page : Int) : Response<MoviesResponse>
+
+    @GET("movies/{page}/{search_word}")
+    suspend fun searchMovies(@Path("page") page : Int, @Path("search_word") searchWord : String) : Response<MoviesResponse>
 }
 
 

@@ -7,7 +7,8 @@ import com.example.myapplication.features.movie.domain.repository.MoviesPageRepo
 import com.example.myapplication.shared_componenet.api.API
 import kotlinx.coroutines.launch
 
-class MoviePageViewModel (private val repository: MoviesPageRepository) : ViewModel(){
+class MoviePageViewModel (private val repository: MoviesPageRepository)
+    : ViewModel(){
     private val _movies = MutableLiveData<MoviesResponse>()
     val movies: LiveData<MoviesResponse> get() = _movies
     fun getMoviesByPage(pageNumber : Int){

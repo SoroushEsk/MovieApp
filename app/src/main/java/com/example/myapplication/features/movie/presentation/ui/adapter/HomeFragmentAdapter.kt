@@ -242,6 +242,7 @@ class HomeFragmentAdapter(
     fun setOnGenreClick(listener: GenreAdapter.OnGenreClickListener){
         genreClickListener = listener
     }
+    fun isGenresEmpty() : Boolean = genres.isEmpty()
     fun ViewPager2.setCurrentItemWithDuration(
         item: Int,
         duration: Long,

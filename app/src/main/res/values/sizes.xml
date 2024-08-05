@@ -12,4 +12,5 @@
     <dimen name="moviePageHorizMargin">16dp</dimen>
     <dimen name="movieImageItemSize">150dp</dimen>
     <dimen name="genreItemCornerRaduis">10dp</dimen>
+    <dimen name="searchItemMovieHeight">100dp</dimen>
 </resources>

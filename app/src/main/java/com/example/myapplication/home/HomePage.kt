@@ -26,6 +26,7 @@ class HomePage : AppCompatActivity() {
         initFragment()
         homeIconAction()
         favoriteIconAction()
+        searchIconAction()
     }
     //region Initialize
     private fun initBinding() {
@@ -53,98 +54,78 @@ class HomePage : AppCompatActivity() {
     }
     //endregion
     //region methods
-    private fun homeIconAction(){
-        binding.homePageHomeIcon.setOnClickListener{
+    private fun homeIconAction() {
+        binding.homePageHomeIcon.setOnClickListener {
             Log.e("ButtonClick", "movie")
             when (currentFragment) {
                 FragmentTypes.MovieFragment -> return@setOnClickListener
-                FragmentTypes.FavoriteFragment -> {
-                    ImageViewCompat.setImageTintList(
-                        binding.homePageLikeIcon,
-                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
-                    )
-                }
-                FragmentTypes.SearchFragment -> {
-                    ImageViewCompat.setImageTintList(
-                        binding.homePageSearchIcon,
-                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
-                    )
+                FragmentTypes.FavoriteFragment, FragmentTypes.SearchFragment -> {
+                    var homeFragment = supportFragmentManager.findFragmentByTag(Constants.MovieFragmentTag) as? HomeFragment
+                    if (homeFragment == null) {
+                        homeFragment = HomeFragment()
+                    }
+                    supportFragmentManager.beginTransaction()
+                        .replace(binding.homePageFragmentContainer.id, homeFragment, Constants.MovieFragmentTag)
+                        .addToBackStack(Constants.MovieFragmentTag)
+                        .commit()
+
+                    updateIconColors(FragmentTypes.MovieFragment)
+
+                    currentFragment = FragmentTypes.MovieFragment
                 }
             }
-            ImageViewCompat.setImageTintList(
-                binding.homePageHomeIcon,
-                ContextCompat.getColorStateList(this, R.color.app_yellow_color)
-            )
-            val fragmentManager = supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(binding.homePageFragmentContainer.id, HomeFragment(), Constants.MovieFragmentTag)
-                .addToBackStack(Constants.MovieFragmentTag)
-                .commit()
-
-            currentFragment = FragmentTypes.MovieFragment
         }
     }
-    fun searchIconAction(){
-        binding.homePageLikeIcon.setOnClickListener{
-            Log.e("ButtonClick", "favorite")
+    fun searchIconAction() {
+        binding.homePageSearchIcon.setOnClickListener {
+            Log.e("ButtonClick", "search")
             when (currentFragment) {
                 FragmentTypes.SearchFragment -> return@setOnClickListener
-                FragmentTypes.MovieFragment -> {
-                    ImageViewCompat.setImageTintList(
-                        binding.homePageHomeIcon,
-                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
-                    )
-                }
-                FragmentTypes.FavoriteFragment -> {
-                    ImageViewCompat.setImageTintList(
-                        binding.homePageLikeIcon,
-                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
-                    )
+                FragmentTypes.MovieFragment, FragmentTypes.FavoriteFragment -> {
+                    var searchFragment = supportFragmentManager.findFragmentByTag(Constants.SearchFragmentTag) as? SearchFragment
+                    if (searchFragment == null) {
+                        searchFragment = SearchFragment()
+                    }
+                    supportFragmentManager.beginTransaction()
+                        .replace(binding.homePageFragmentContainer.id, searchFragment, Constants.SearchFragmentTag)
+                        .addToBackStack(Constants.SearchFragmentTag)
+                        .commit()
+                    updateIconColors(FragmentTypes.SearchFragment)
+                    currentFragment = FragmentTypes.SearchFragment
                 }
             }
-            ImageViewCompat.setImageTintList(
-                binding.homePageSearchIcon,
-                ContextCompat.getColorStateList(this, R.color.app_yellow_color)
-            )
-            val fragmentManager = supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(binding.homePageFragmentContainer.id, SearchFragment(), Constants.SearchFragmentTag)
-                .addToBackStack(Constants.SearchFragmentTag)
-                .commit()
-
-            currentFragment = FragmentTypes.SearchFragment
         }
     }
-    fun favoriteIconAction(){
-        binding.homePageLikeIcon.setOnClickListener{
+    fun favoriteIconAction() {
+        binding.homePageLikeIcon.setOnClickListener {
             Log.e("ButtonClick", "favorite")
             when (currentFragment) {
                 FragmentTypes.FavoriteFragment -> return@setOnClickListener
-                FragmentTypes.MovieFragment -> {
-                    ImageViewCompat.setImageTintList(
-                        binding.homePageHomeIcon,
-                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
-                    )
-                }
-                FragmentTypes.SearchFragment -> {
-                    ImageViewCompat.setImageTintList(
-                        binding.homePageSearchIcon,
-                        ContextCompat.getColorStateList(this, R.color.app_gray_color)
-                    )
+                FragmentTypes.MovieFragment, FragmentTypes.SearchFragment -> {
+                    var favoriteFragment = supportFragmentManager.findFragmentByTag(Constants.FavoriteFragmentTag) as? FavoriteFragment
+                    if (favoriteFragment == null) {
+                        favoriteFragment = FavoriteFragment()
+                    }
+                    supportFragmentManager.beginTransaction()
+                        .replace(binding.homePageFragmentContainer.id, favoriteFragment, Constants.FavoriteFragmentTag)
+                        .addToBackStack(Constants.FavoriteFragmentTag)
+                        .commit()
+                    updateIconColors(FragmentTypes.FavoriteFragment)
+                    currentFragment = FragmentTypes.FavoriteFragment
                 }
             }
-            ImageViewCompat.setImageTintList(
-                binding.homePageLikeIcon,
-                ContextCompat.getColorStateList(this, R.color.app_yellow_color)
-            )
-            val fragmentManager = supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(binding.homePageFragmentContainer.id, FavoriteFragment(), Constants.FavoriteFragmentTag)
-                .addToBackStack(Constants.FavoriteFragmentTag)
-                .commit()
-
-            currentFragment = FragmentTypes.FavoriteFragment
         }
+    }
+    private fun updateIconColors(fragmentType: FragmentTypes) {
+        binding.homePageHomeIcon.imageTintList = ContextCompat.getColorStateList(this,
+            if (fragmentType == FragmentTypes.MovieFragment) R.color.app_yellow_color
+            else R.color.app_gray_color)
+        binding.homePageLikeIcon.imageTintList = ContextCompat.getColorStateList(this,
+            if (fragmentType == FragmentTypes.FavoriteFragment) R.color.app_yellow_color
+            else R.color.app_gray_color)
+        binding.homePageSearchIcon.imageTintList = ContextCompat.getColorStateList(this,
+            if (fragmentType == FragmentTypes.SearchFragment) R.color.app_yellow_color
+            else R.color.app_gray_color)
     }
     //endregion
     //region override methods

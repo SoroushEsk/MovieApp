@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context=".fragment.search.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/searchCardview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/border_genre_item"
+        app:cardBackgroundColor="@color/black"
+        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/searchTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            app:hintAnimationEnabled="true"
+            app:hintEnabled="true"
+            app:boxStrokeColor="@color/app_yellow_color"
+            android:layout_gravity="center"
+            app:boxStrokeWidth="2dp"
+            app:boxBackgroundColor="@color/app_yellow_color"
+            android:padding="4dp"
+            app:boxBackgroundMode="filled"
+            app:boxStrokeWidthFocused="1dp"
+            app:cursorColor="@color/app_yellow_color"
+            app:hintTextColor="@color/app_yellow_color"
+            android:hint="Search"
+            android:textColorHint="@color/app_gray_color"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/searchTextInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:inputType="text"
+                android:textColor="@color/app_gray_color"
+                android:maxLines="1"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.cardview.widget.CardView>
 
-</FrameLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="10dp"
+        android:clipToPadding="true"
+        />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

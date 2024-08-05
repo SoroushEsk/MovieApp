@@ -2,6 +2,7 @@ package com.example.myapplication.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,8 @@ class HomeFragment
         TopMovieSliderAdapter.OnSliderMovieClickListener,
         GenreAdapter.OnGenreClickListener {
     //region properties
+    private var recyclerViewState: Parcelable? = null
+    private var scrollPosition = 0
     private lateinit var binding: FragmentHomeBinding
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var pageMovieViewModel: MoviePageViewModel
@@ -55,17 +58,26 @@ class HomeFragment
         initAdapter()
         viewModelConfig()
         setupScrollListener()
+        if (recyclerViewState != null) {
+            binding.homePageRecyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
+            (binding.homePageRecyclerView.layoutManager as LinearLayoutManager).scrollToPosition(scrollPosition)
+        }
+    }
+    override fun onPause() {
+        super.onPause()
+        recyclerViewState = binding.homePageRecyclerView.layoutManager?.onSaveInstanceState()
+        scrollPosition = (binding.homePageRecyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
     }
     //endregion
     //region initiation
-    fun initViewModel() {
+    private fun initViewModel() {
         movieViewModel = ViewModelProvider(this, MovieViewModelFactory())[MovieViewModel::class.java]
         genreViewModel = ViewModelProvider(this, GenreViewModelFactory())[GenreViewModel::class.java]
         pageMovieViewModel = ViewModelProvider(this, MovieDetailedPageViewModelFactory())[MoviePageViewModel::class.java]
         movieViewModel.getAllMovies()
         genreViewModel.getAllGenres()
     }
-    fun initAdapter() {
+    private fun initAdapter() {
         pageAdapter = HomeFragmentAdapter()
         pageAdapter.setOnMovieClickListener(this)
         pageAdapter.setOnSliderClick(this)
@@ -115,21 +127,30 @@ class HomeFragment
         startActivity(intent)
     }
     private fun viewModelConfig() {
-        movieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
+        if (movies.isEmpty()) {
+            movieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
+                movies.addAll(movieList.data)
+                pageAdapter.updateMovies(filterMovies(movieList.data))
+                MaxPageSize = movieList.metadata.page_count
+                CurrentPageNumber = movieList.metadata.current_page
+                pageAdapter.isLoading = false
+            }
+            movieViewModel.getAllMovies()
+        } else {
+            pageAdapter.updateMovies(filterMovies(movies))
+        }
+
+        if (pageAdapter.isGenresEmpty()) {
+            genreViewModel.genres.observe(viewLifecycleOwner) { genreList ->
+                pageAdapter.updateGenres(genreList.data)
+            }
+            genreViewModel.getAllGenres()
+        }
+
+        pageMovieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
             movies.addAll(movieList.data)
             pageAdapter.updateMovies(filterMovies(movieList.data))
-            MaxPageSize = movieList.metadata.page_count
-            CurrentPageNumber = movieList.metadata.current_page
-            pageAdapter.isLoading=false
-            pageAdapter.isLoading=false
-        }
-        genreViewModel.genres.observe(viewLifecycleOwner) { genreList ->
-            pageAdapter.updateGenres(genreList.data)
-        }
-        pageMovieViewModel.movies.observe(viewLifecycleOwner){movieList ->
-            movies.addAll(movieList.data)
-            pageAdapter.updateMovies(filterMovies(movieList.data))
-            pageAdapter.isLoading=false
+            pageAdapter.isLoading = false
         }
     }
     private fun setupScrollListener() {

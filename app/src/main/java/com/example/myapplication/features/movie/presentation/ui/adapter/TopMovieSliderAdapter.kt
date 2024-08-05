@@ -34,6 +34,8 @@ class TopMovieSliderAdapter (
             binding.topMovieCountry.text = movie.country
             binding.topMovieRating.text = movie.imdb_rating
             binding.topMovieYear.text = movie.year
+            binding.divider1.setBackgroundResource(R.drawable.divider)
+            binding.divider2.setBackgroundResource(R.drawable.divider)
             binding.ratingStartIcon.setImageResource(R.drawable.star)
         }
     }
@@ -46,7 +48,7 @@ class TopMovieSliderAdapter (
     override fun getItemCount(): Int = Int.MAX_VALUE
 
     override fun onBindViewHolder(holder : TopMovieViewHolder, position: Int) {
-        if (movies.isNotEmpty()) {
+        if (movies.isNotEmpty() && position < movies.size ) {
             holder.bindData(movies.get(position%Constants.Top_Movie_Size))
             holder.itemView.setOnClickListener{
                 onMovieClickListener?.onSliderMovieClick(movies[position%Constants.Top_Movie_Size])
