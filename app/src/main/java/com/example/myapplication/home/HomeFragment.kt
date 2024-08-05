@@ -3,6 +3,7 @@ package com.example.myapplication.home
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.example.myapplication.features.movie.presentation.ui.scroll.EndlessRe
 import com.example.myapplication.features.movie.presentation.viewmodel.*
 import com.example.myapplication.moviedetail.MoviePage
 import com.example.myapplication.shared_componenet.constants.Constants
+import kotlinx.coroutines.currentCoroutineContext
 
 class HomeFragment
     : Fragment(),
@@ -30,6 +32,7 @@ class HomeFragment
     //region properties
     private var recyclerViewState: Parcelable? = null
     private var scrollPosition = 0
+    private var isNewData      = false
     private lateinit var binding: FragmentHomeBinding
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var pageMovieViewModel: MoviePageViewModel
@@ -37,10 +40,12 @@ class HomeFragment
     private lateinit var genreViewModel: GenreViewModel
     private var movies : MutableList<Movie> = mutableListOf()
     private var genres : MutableList<String>   = mutableListOf()
-    companion object{
+    private var isCreate : Boolean = true
+    companion object {
         var MaxPageSize = 0
         var CurrentPageNumber = 1
     }
+
     //endregion
     //region lifecycle
     override fun onCreateView(
@@ -48,10 +53,12 @@ class HomeFragment
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        MaxPageSize = 0
-        CurrentPageNumber = 1
+        var MaxPageSize = 0
+        var CurrentPageNumber = 1
+
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewModel()
@@ -135,22 +142,22 @@ class HomeFragment
                 CurrentPageNumber = movieList.metadata.current_page
                 pageAdapter.isLoading = false
             }
-            movieViewModel.getAllMovies()
         } else {
             pageAdapter.updateMovies(filterMovies(movies))
         }
-
         if (pageAdapter.isGenresEmpty()) {
             genreViewModel.genres.observe(viewLifecycleOwner) { genreList ->
                 pageAdapter.updateGenres(genreList.data)
             }
-            genreViewModel.getAllGenres()
         }
-
         pageMovieViewModel.movies.observe(viewLifecycleOwner) { movieList ->
-            movies.addAll(movieList.data)
-            pageAdapter.updateMovies(filterMovies(movieList.data))
-            pageAdapter.isLoading = false
+            if(isNewData){
+                movies.addAll(movieList.data)
+                pageAdapter.updateMovies(filterMovies(movieList.data))
+                pageAdapter.isLoading = false
+                CurrentPageNumber = movieList.metadata.current_page
+                isNewData = false
+            }
         }
     }
     private fun setupScrollListener() {
@@ -159,7 +166,9 @@ class HomeFragment
             override fun loadMoreItems() {
                 pageAdapter.isLoading = true
                 CurrentPageNumber++
+
                 if (CurrentPageNumber <= MaxPageSize) {
+                    isNewData = true
                     pageMovieViewModel.getMoviesByPage(CurrentPageNumber)
                 }
             }

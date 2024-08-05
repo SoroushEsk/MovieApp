@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,8 +33,8 @@ class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
     private var keyWord                 : String?     = null
     private val coroutineScope                        = CoroutineScope(Dispatchers.Main + Job())
     private var searchJob               : Job?        = null
-    private val debounceTime            : Long        = 300L
     private var isNewKeyWord            : Boolean     = true
+    private val debounceTime            : Long        = 300L
     private lateinit var binding        : FragmentSearchBinding
     private lateinit var viewModel      : SearchViewModel
     private lateinit var pageAdapter    : SearchRecyclerAdapter
@@ -86,7 +87,7 @@ class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
     private fun initViewModel(){
-        viewModel = ViewModelProvider(this, SearchMovieViewModelFactory())[SearchViewModel::class.java]
+        viewModel  = ViewModelProvider(this, SearchMovieViewModelFactory())[SearchViewModel::class.java]
     }
     private fun initScrollLinstener(){
         val layoutManager:LinearLayoutManager =
@@ -97,7 +98,7 @@ class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
             override fun loadMoreItems() {
                 pageAdapter.isLoading = true
                 currentPageNumber++
-                isNewKeyWord = false
+                Log.e("viewModel", "is running")
                 if ( currentPageNumber <= maxPageSize && keyWord != null){
                     viewModel.searchMovie(currentPageNumber, keyWord!!)
                 }
@@ -131,9 +132,11 @@ class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
     //region function
     private fun viewModelConfig(){
         viewModel.movies.observe(viewLifecycleOwner){movieResponse->
-            if ( isNewKeyWord)
+
+            if(isNewKeyWord) {
                 pageAdapter.setMovies(movieResponse.data)
-            else pageAdapter.updateMovies(movieResponse.data)
+                isNewKeyWord = false
+            }else pageAdapter.updateMovies(movieResponse.data)
             pageAdapter.isLoading = false
             maxPageSize = movieResponse.metadata.page_count
             currentPageNumber = movieResponse.metadata.current_page
@@ -142,7 +145,7 @@ class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
     private fun performSearch(query : String){
         currentPageNumber = 1
         isNewKeyWord = true
-        viewModel.searchMovie(currentPageNumber, query)
-    }
+        keyWord = query
+        viewModel.searchMovie(currentPageNumber++, query)}
     //endregion
 }
