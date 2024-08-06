@@ -44,6 +44,7 @@ class RegisterActivity : AppCompatActivity() {
                 if(it.isSuccessful){
                     sharedPreferences.putBoolean(Constants.IsAuthenticated, true)
                     startActivity(Intent(this, HomePage::class.java))
+                    finish()
                 }else {
                     showToast("Your Request Was Unsuccessful")
                 }
