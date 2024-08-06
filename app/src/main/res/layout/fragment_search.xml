@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:paddingHorizontal="10dp"
         android:clipToPadding="true"
+        android:layoutAnimation="@anim/recycler_search"
         />
 
 

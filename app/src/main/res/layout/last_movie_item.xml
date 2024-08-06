@@ -103,10 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/homeFragmentMarginVer"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="onLinkClick">
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/linkTextView"

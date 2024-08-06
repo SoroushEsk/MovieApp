@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -35,6 +36,7 @@ class FavoriteFragment : Fragment(), FavoriteFragmentAdapter.OnMovieClickListene
         initViewModel()
         initAdapter()
         viewModelConfig()
+        configAnimation()
     }
 
     override fun onResume() {
@@ -65,6 +67,35 @@ class FavoriteFragment : Fragment(), FavoriteFragmentAdapter.OnMovieClickListene
                 binding.loadAnimation.visibility = View.GONE
             }
         }
+    }
+    private fun configAnimation(){
+        val scaleAnimation = ScaleAnimation(
+            1.1f, 1f,
+            1.1f, 1f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        )
+        scaleAnimation.interpolator = DecelerateInterpolator()
+        val durationAnimation= TranslateAnimation(
+            Animation.RELATIVE_TO_SELF, 0f,
+            Animation.RELATIVE_TO_SELF, 0f,
+            Animation.RELATIVE_TO_SELF, -0.2f,
+            Animation.RELATIVE_TO_SELF, 0f
+        )
+        durationAnimation.interpolator = DecelerateInterpolator()
+        val alphaAnimation = AlphaAnimation(0f, 1f)
+        alphaAnimation.interpolator = DecelerateInterpolator()
+        val animationSet = AnimationSet(true).apply {
+            duration = 500
+            addAnimation(alphaAnimation)
+            addAnimation(scaleAnimation)
+            addAnimation(durationAnimation)
+        }
+        val layoutAnimationController = LayoutAnimationController(animationSet, 0.5f).apply {
+            order = LayoutAnimationController.ORDER_NORMAL
+        }
+        binding.movieRecycler.layoutAnimation = layoutAnimationController
+
     }
     //endregion
     //region override methods

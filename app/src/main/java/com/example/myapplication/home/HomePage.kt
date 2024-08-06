@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import com.example.myapplication.shared_componenet.constants.Constants
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.FragmentManager
@@ -13,6 +14,7 @@ import com.example.myapplication.databinding.ActivityHomePageBinding
 import com.example.myapplication.fragment.favorite.FavoriteFragment
 import com.example.myapplication.fragment.search.SearchFragment
 import com.example.myapplication.utils.FragmentTypes
+import com.google.android.material.snackbar.Snackbar
 
 class HomePage : AppCompatActivity() {
     //region Attributes
@@ -27,6 +29,7 @@ class HomePage : AppCompatActivity() {
         homeIconAction()
         favoriteIconAction()
         searchIconAction()
+        profileIconAction()
     }
     //region Initialize
     private fun initBinding() {
@@ -114,6 +117,11 @@ class HomePage : AppCompatActivity() {
                     currentFragment = FragmentTypes.FavoriteFragment
                 }
             }
+        }
+    }
+    private fun profileIconAction(){
+        binding.homePageProfileIcon.setOnClickListener(){
+            Toast.makeText(this, "Available In The Next Version", Toast.LENGTH_LONG).show()
         }
     }
     private fun updateIconColors(fragmentType: FragmentTypes) {

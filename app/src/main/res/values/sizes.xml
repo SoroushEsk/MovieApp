@@ -13,4 +13,5 @@
     <dimen name="movieImageItemSize">150dp</dimen>
     <dimen name="genreItemCornerRaduis">10dp</dimen>
     <dimen name="searchItemMovieHeight">100dp</dimen>
+    <dimen name="registerHeightTextInput">65dp</dimen>
 </resources>

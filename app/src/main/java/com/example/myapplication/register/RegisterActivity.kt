@@ -5,6 +5,8 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.R
@@ -17,13 +19,14 @@ import com.example.myapplication.utils.containsKey
 import com.example.myapplication.utils.putBoolean
 import com.example.myapplication.utils.putInteger
 import com.example.myapplication.utils.putString
+import com.google.android.material.textfield.TextInputEditText
 import java.security.MessageDigest
-
 class RegisterActivity : AppCompatActivity() {
     //region Properties
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var binding : ActivityRegisterBinding
     private lateinit var viewModel: TokenViewModel
+    private var isFocused = HashMap<Int, Boolean>()
     //endregion
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +44,17 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
-//        var customeColoe = Color.parseColor("#FFAFAFAF")
-
+        setupFocusChangeListener(binding.textInputEditTextName, binding.nameIcon, binding.nameBorder)
+        setupFocusChangeListener(binding.textInputEditTextStd, binding.stdIcon, binding.stdBorder)
+        setupFocusChangeListener(binding.textInputEditTextEmail, binding.emailIcon, binding.emailBorder)
+        val passwordTextInput = binding.textInputEditTextPassword
+        passwordTextInput.setOnFocusChangeListener{ _, hasFocus ->
+            val colorResId = if (hasFocus) R.color.app_yellow_color else R.color.app_gray_color
+            val borderResId = if (hasFocus) R.drawable.yellow_border else R.drawable.border_genre_item
+            binding.passwordIcon.imageTintList = ContextCompat.getColorStateList(this, colorResId)
+            binding.textInputLayoutPassword.setEndIconTintList(ContextCompat.getColorStateList(this, colorResId))
+            binding.passwordBorder.setBackgroundResource(borderResId)
+        }
     }
 
 
@@ -64,12 +76,24 @@ class RegisterActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, TokenViewModelFactory())[TokenViewModel::class.java]
 
     }
+    private fun setupFocusChangeListener(
+        editText: TextInputEditText,
+        icon: ImageView,
+        border: View
+    ) {
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            val colorResId = if (hasFocus) R.color.app_yellow_color else R.color.app_gray_color
+            val borderResId = if (hasFocus) R.drawable.yellow_border else R.drawable.border_genre_item
+            icon.imageTintList = ContextCompat.getColorStateList(this, colorResId)
+            border.setBackgroundResource(borderResId)
+        }
+    }
     //endregion
 
     //region Method
     private fun getRegisterRequest(): RegisterRequest {
         val name = binding.textInputEditTextName.text.toString().trim()
-        val studentId = binding.textInputEditTextStNumber.text.toString().trim()
+        val studentId = binding.textInputEditTextStd.text.toString().trim()
         val email = binding.textInputEditTextEmail.text.toString().trim()
         val password = binding.textInputEditTextPassword.text.toString().trim().toMD5()
 
@@ -81,3 +105,4 @@ class RegisterActivity : AppCompatActivity() {
     }
     //endregion
 }
+

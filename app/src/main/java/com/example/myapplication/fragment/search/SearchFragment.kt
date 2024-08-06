@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -61,6 +62,7 @@ class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
         viewModelConfig()
         initScrollLinstener()
         initRealTimeSearch()
+        configAnimation()
         if (recyclerViewState != null) {
             binding.searchRecycler.layoutManager?.onRestoreInstanceState(recyclerViewState)
             (binding.searchRecycler.layoutManager as LinearLayoutManager).scrollToPosition(scrollPosition)
@@ -141,6 +143,35 @@ class SearchFragment : Fragment(), SearchRecyclerAdapter.OnMovieClickListener{
             maxPageSize = movieResponse.metadata.page_count
             currentPageNumber = movieResponse.metadata.current_page
         }
+    }
+    private fun configAnimation(){
+        val scaleAnimation = ScaleAnimation(
+            1.1f, 1f,
+            1.1f, 1f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        )
+        scaleAnimation.interpolator = DecelerateInterpolator()
+        val durationAnimation= TranslateAnimation(
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, 0f,
+        Animation.RELATIVE_TO_SELF, -0.2f,
+        Animation.RELATIVE_TO_SELF, 0f
+        )
+        durationAnimation.interpolator = DecelerateInterpolator()
+        val alphaAnimation = AlphaAnimation(0f, 1f)
+        alphaAnimation.interpolator = DecelerateInterpolator()
+        val animationSet = AnimationSet(true).apply {
+            duration = 2000
+            addAnimation(alphaAnimation)
+            addAnimation(scaleAnimation)
+            addAnimation(durationAnimation)
+        }
+        val layoutAnimationController = LayoutAnimationController(animationSet, 0.5f).apply {
+            order = LayoutAnimationController.ORDER_NORMAL
+        }
+        binding.searchRecycler.layoutAnimation = layoutAnimationController
+
     }
     private fun performSearch(query : String){
         currentPageNumber = 1

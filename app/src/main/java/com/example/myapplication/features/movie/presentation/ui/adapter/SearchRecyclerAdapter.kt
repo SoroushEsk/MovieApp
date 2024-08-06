@@ -11,7 +11,7 @@ import com.example.myapplication.features.movie.domain.model.Movie
 import com.example.myapplication.shared_componenet.constants.Constants
 
 class SearchRecyclerAdapter(
-    private val onMovieClickListener: SearchRecyclerAdapter.OnMovieClickListener,
+    private val onMovieClickListener: SearchRecyclerAdapter.OnMovieClickListener?,
     private var movies              : MutableList<Movie> = mutableListOf()
 ):RecyclerView.Adapter<SearchRecyclerAdapter.SearchMovieItemViewHolder>(){
     //region properties
@@ -53,21 +53,21 @@ class SearchRecyclerAdapter(
         if( movies.isNotEmpty() ){
             holder.bindData(movies[position])
             holder.itemView.setOnClickListener{
-                onMovieClickListener.onMovieClick(movies[position])
+                onMovieClickListener?.onMovieClick(movies[position])
             }
         }
     }
     @SuppressLint("NotifyDataSetChanged")
-    fun updateMovies(moviesResponce: List<Movie>) {
-        if (moviesResponce.isNotEmpty()) {
-            this.movies.addAll(moviesResponce)
+    fun updateMovies(movies: List<Movie>) {
+        if (movies.isNotEmpty()) {
+            this.movies.addAll(movies)
             notifyDataSetChanged()
         }
     }
     @SuppressLint("NotifyDataSetChanged")
-    fun setMovies(moviesResponce: List<Movie>) {
-        if (moviesResponce.isNotEmpty()) {
-            this.movies = moviesResponce as MutableList<Movie>
+    fun setMovies(movies: List<Movie>) {
+        if (movies.isNotEmpty()) {
+            this.movies = movies as MutableList<Movie>
             notifyDataSetChanged()
         }
     }
