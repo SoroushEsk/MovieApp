@@ -78,68 +78,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/registerHeightTextInput"
-        android:layout_marginVertical="10dp">
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="@dimen/genreItemCornerRaduis"
-            app:cardBackgroundColor="@color/app_black_color">
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                >
-                <ImageView
-                    android:layout_width="@dimen/registerHeightTextInput"
-                    android:layout_height="match_parent"
-                    android:id="@+id/stdIcon"
-                    android:src="@drawable/student"
-                    android:background="@null"
-                    android:padding="20dp"
-                    app:tint="@color/app_gray_color"
-                    />
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayoutStd"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    app:hintTextColor="@color/app_yellow_color"
-                    android:textColorHint="@color/app_gray_color"
-                    app:boxStrokeWidth="2dp"
-                    app:boxBackgroundColor="@color/app_yellow_color"
-                    android:layout_marginTop="2dp"
-                    app:cursorColor="@color/app_yellow_color"
-                    app:boxStrokeColor="@color/app_yellow_color"
-                    android:hint="Student Number">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputEditTextStd"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/app_gray_color"
-                        android:layout_marginTop="2dp"
-                        android:textColorHint="@color/app_yellow_color"
-
-                        android:layout_gravity="bottom"
-                        android:background="@null"
-                        android:inputType="numberDecimal"/>
-                </com.google.android.material.textfield.TextInputLayout>
-            </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.cardview.widget.CardView>
-        <View
-            android:id="@+id/stdBorder"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/border_genre_item"
-            android:elevation="2dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/registerHeightTextInput"

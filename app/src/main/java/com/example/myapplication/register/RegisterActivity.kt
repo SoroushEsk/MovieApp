@@ -51,7 +51,6 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
         setupFocusChangeListener(binding.textInputEditTextName, binding.nameIcon, binding.nameBorder)
-        setupFocusChangeListener(binding.textInputEditTextStd, binding.stdIcon, binding.stdBorder)
         setupFocusChangeListener(binding.textInputEditTextEmail, binding.emailIcon, binding.emailBorder)
         val passwordTextInput = binding.textInputEditTextPassword
         passwordTextInput.setOnFocusChangeListener{ _, hasFocus ->
@@ -95,15 +94,10 @@ class RegisterActivity : AppCompatActivity() {
     //region Method
     private fun getRegisterRequest(): RegisterRequest? {
         val name = binding.textInputEditTextName.text.toString().trim()
-        val studentId = binding.textInputEditTextStd.text.toString().trim()
         val email = binding.textInputEditTextEmail.text.toString().trim()
         val password = binding.textInputEditTextPassword.text.toString().trim().toMD5()
         if (name.length < Companion.NAME_MIN_LENGTH || name.length > Companion.NAME_MAX_LENGTH) {
             showToast("Name must be between ${Companion.NAME_MIN_LENGTH} and ${Companion.NAME_MAX_LENGTH} characters")
-            return null
-        }
-        if (!studentId.isValidStudentId()) {
-            showToast("Invalid student ID. It should be 7 or 8 digits")
             return null
         }
         if (!email.isValidEmail()) {
