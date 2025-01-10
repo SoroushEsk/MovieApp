@@ -114,7 +114,7 @@ class RegisterActivity : AppCompatActivity() {
             showToast("Password must be at least ${Companion.PASSWORD_MIN_LENGTH} characters long")
             return null
         }
-        return RegisterRequest(email, name, studentId, password)
+        return RegisterRequest(email, password, name)
     }
     fun String.toMD5(): String {
         val bytes = MessageDigest.getInstance("MD5").digest(this.toByteArray())

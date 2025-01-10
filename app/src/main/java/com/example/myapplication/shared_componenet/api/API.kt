@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 class API {
     companion object {
         private object Constant{
-            const val baseURL = "https://moviesapi.ir/api/v1/"
+            const val baseURL = "https://moviesapi.ir/"
             const val connectionTime: Long = 60
         }
         private val client: OkHttpClient
