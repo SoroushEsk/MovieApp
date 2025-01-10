@@ -16,9 +16,6 @@ class MoviesRepository(private val api : APIService){
                     val responseUnique = api.getMovie(it.id)
                     if(responseUnique.isSuccessful){
                         val movie = responseUnique.body() ?: throw Exception("Only One Movie Detail Failed")
-                        it.country = movie.data.country
-                        it.imdb_rating = movie.data.imdb_rating
-                        it.year = movie.data.year
                     }
                 }
 

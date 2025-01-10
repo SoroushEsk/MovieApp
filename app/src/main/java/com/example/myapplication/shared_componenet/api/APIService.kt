@@ -10,6 +10,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface APIService {
 
@@ -19,17 +20,17 @@ interface APIService {
     @GET("movies")
     suspend fun getAllMovies(): Response<MoviesResponse>
 
-    @GET("movie/{movie_id}")
+    @GET("movies/{movie_id}")
     suspend fun getMovie(@Path("movie_id") id : Int): Response<MovieDetailResponse>
 
     @GET("genres")
     suspend fun  getAllGenres() : Response<GenreResponse>
 
-    @GET("movies/{page}")
-    suspend fun getMoviePage(@Path("page") page : Int) : Response<MoviesResponse>
+    @GET("movies")
+    suspend fun getMoviePage(@Query("page") page: Int) : Response<MoviesResponse>
 
-    @GET("movies/{page}/{search_word}")
-    suspend fun searchMovies(@Path("page") page : Int, @Path("search_word") searchWord : String) : Response<MoviesResponse>
+
+    @GET("movies")
+    suspend fun searchMovies(@Query("q") name: String, @Query("page") page: Int): Response<MoviesResponse>
 }
-
 

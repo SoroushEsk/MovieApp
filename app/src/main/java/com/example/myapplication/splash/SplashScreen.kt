@@ -33,9 +33,9 @@ class SplashScreen : AppCompatActivity() {
             .scaleX(1f)
             .scaleY(1f)
             .withEndAction {
-                val intent = if (sharedPreferences.getBoolean(Constants.IsAuthenticated, false))
+                val intent = //if (sharedPreferences.getBoolean(Constants.IsAuthenticated, false))
                     Intent(this, HomePage::class.java)
-                else Intent(this, RegisterActivity::class.java)
+                //else Intent(this, RegisterActivity::class.java)
                 startActivity(intent)
                 finish()
             }

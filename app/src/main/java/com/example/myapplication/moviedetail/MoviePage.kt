@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMoviePageBinding
+import com.example.myapplication.features.movie.domain.model.MovieDetailResponse
 import com.example.myapplication.features.movie.domain.model.MovieDetailed
 import com.example.myapplication.features.movie.presentation.ui.adapter.MoviePageAdapter
 import com.example.myapplication.features.movie.presentation.viewmodel.MovieDetailViewModelFactory
@@ -54,7 +55,7 @@ class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
     }
     fun viewModelConfig(){
         viewModel.movie.observe(this){movieDetail->
-            pageAdapter.updateData(listOf(movieDetail.data))
+            pageAdapter.updateData(listOf(movieDetail))
         }
         viewModel.loadingState.observe(this){
             if ( it ){
@@ -85,9 +86,10 @@ class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
     }
     //endregion
     //region adapter methods
-    override fun isMovieExists(movie: MovieDetailed): Boolean = isMovieInDatabase
-    override fun deleteMovie(movie: MovieDetailed) {
-        val text = movie.runtime
+    override fun isMovieExists(movie: MovieDetailResponse): Boolean = isMovieInDatabase
+    override fun deleteMovie(movie: MovieDetailResponse) {
+
+        val text =  movie?.runtime ?: ""
         val regex = "\\d+".toRegex()
         val match = regex.find(text)
         val number : Int = (match?.value)?.toInt() ?: 0
@@ -95,8 +97,8 @@ class MoviePage : AppCompatActivity(), MoviePageAdapter.onLikeButtonClick {
         roomDBViewModel.isMovieExists(movie.id)
         isMovieInDatabase = false
     }
-    override fun insertMovie(movie: MovieDetailed) {
-        val text = movie.runtime
+    override fun insertMovie(movie: MovieDetailResponse) {
+        val text =  movie?.runtime ?: ""
         val regex = "\\d+".toRegex()
         val match = regex.find(text)
         val number : Int = (match?.value)?.toInt() ?: 0

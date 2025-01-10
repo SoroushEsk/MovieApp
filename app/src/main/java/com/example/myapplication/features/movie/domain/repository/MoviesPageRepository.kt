@@ -15,9 +15,9 @@ class MoviesPageRepository (private val api : APIService){
                     val movieResponse = api.getMovie(it.id)
                     if ( movieResponse.isSuccessful ){
                         val movie = movieResponse.body() ?: throw Exception("One Moive Failed")
-                        it.country = movie.data.country
-                        it.imdb_rating = movie.data.imdb_rating
-                        it.year = movie.data.year
+                        it.country = movie.country
+                        it.imdb_rating = movie.imdb_rating
+                        it.year = movie.year
                     }
                 }
                 moviesResponse

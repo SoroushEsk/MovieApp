@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.features.genre.domain.model.Genre
+import com.example.myapplication.features.genre.domain.model.GenreResponse
 import com.example.myapplication.features.genre.presentation.ui.adapter.GenreAdapter
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModel
 import com.example.myapplication.features.genre.presentation.viewmodel.GenreViewModelFactory
@@ -39,7 +40,7 @@ class HomeFragment
     private lateinit var pageAdapter: HomeFragmentAdapter
     private lateinit var genreViewModel: GenreViewModel
     private var movies : MutableList<Movie> = mutableListOf()
-    private var genres : MutableList<String>   = mutableListOf()
+    private var genres : MutableList<String?>   = mutableListOf()
     private var isCreate : Boolean = true
     companion object {
         var MaxPageSize = 0
@@ -147,7 +148,7 @@ class HomeFragment
         }
         if (pageAdapter.isGenresEmpty()) {
             genreViewModel.genres.observe(viewLifecycleOwner) { genreList ->
-                pageAdapter.updateGenres(genreList.data)
+                pageAdapter.updateGenres(genreList as List<Genre>)
             }
         }
         pageMovieViewModel.movies.observe(viewLifecycleOwner) { movieList ->

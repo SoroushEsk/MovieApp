@@ -20,12 +20,13 @@ import com.bumptech.glide.request.RequestListener
 import com.example.myapplication.R
 import com.example.myapplication.databinding.MoviePageRecyclerBinding
 import com.example.myapplication.features.movie.domain.model.Movie
+import com.example.myapplication.features.movie.domain.model.MovieDetailResponse
 import com.example.myapplication.features.movie.domain.model.MovieDetailed
 import com.example.myapplication.shared_componenet.constants.Constants
 
 class MoviePageAdapter(
     private val listener: MoviePageAdapter.onLikeButtonClick,
-    private var movies: List<MovieDetailed> = listOf())
+    private var movies: List<MovieDetailResponse> = listOf())
     :RecyclerView.Adapter<MoviePageAdapter.MovieDetailViewHolder>(){
     //region properties
     private lateinit var binding: MoviePageRecyclerBinding
@@ -35,13 +36,13 @@ class MoviePageAdapter(
         const val posterRevealDuratin = 1000
     }
     interface onLikeButtonClick{
-        fun isMovieExists(movie : MovieDetailed) : Boolean
-        fun deleteMovie(movie : MovieDetailed)
-        fun insertMovie(movie : MovieDetailed)
+        fun isMovieExists(movie : MovieDetailResponse) : Boolean
+        fun deleteMovie(movie : MovieDetailResponse)
+        fun insertMovie(movie : MovieDetailResponse)
     }
     inner class MovieDetailViewHolder(private val binding: MoviePageRecyclerBinding)
         :RecyclerView.ViewHolder(binding.root){
-        fun bindData(movie : MovieDetailed, position: Int){
+        fun bindData(movie : MovieDetailResponse, position: Int){
             Glide.with(binding.root.context)
                 .load(movie.poster)
                 .into(binding.posterTransparent)
@@ -117,11 +118,11 @@ class MoviePageAdapter(
         holder.bindData(movies[position], position)
 
     }
-    fun updateItem(movie: MovieDetailed, position : Int) {
+    fun updateItem(movie: MovieDetailResponse, position : Int) {
         notifyItemChanged(position)
     }
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(movie: List<MovieDetailed>) {
+    fun updateData(movie: List<MovieDetailResponse>) {
         this.movies = movie
         notifyDataSetChanged()
     }

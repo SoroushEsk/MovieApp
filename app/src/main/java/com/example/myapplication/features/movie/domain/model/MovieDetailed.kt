@@ -20,4 +20,5 @@ data class MovieDetailed(
     val imdb_id: String,
     val type: String,
     val genres: List<String>,
-    val images: List<String>)
+    val images: List<String>
+)

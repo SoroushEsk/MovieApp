@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 class SearchMovieRepository(private val api : APIService) {
     suspend fun searchMovie(pageNumber : Int , keyWord : String) : MoviesResponse{
         return withContext(Dispatchers.IO){
-            val response  = api.searchMovies(pageNumber, keyWord)
+            val response  = api.searchMovies(keyWord, pageNumber)
             if ( response.isSuccessful ){
                 response.body() ?: throw Exception("Search Body Error")
             } else {

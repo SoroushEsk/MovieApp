@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.MovieImageItemBinding
 
-class MovieImageAdapter (private var photos : List<String> = listOf())
+class MovieImageAdapter (private var photos : List<String>? = listOf())
     :RecyclerView.Adapter<MovieImageAdapter.PhotoViewHolder>(){
     //region properties
     private lateinit var binding: MovieImageItemBinding
@@ -31,10 +31,10 @@ class MovieImageAdapter (private var photos : List<String> = listOf())
         )
         return PhotoViewHolder(binding)
     }
-    override fun getItemCount():Int =  photos.size
+    override fun getItemCount():Int = photos?.size ?: 0
     override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        if ( photos.isNotEmpty() )
-            holder.bindData(photos[position])
+        if (photos?.isNotEmpty() == true)
+            holder.bindData(photos!![position])
     }
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(photos : List<String>){
